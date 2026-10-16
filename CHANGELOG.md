@@ -105,3 +105,12 @@ Changes compared with the original Mop Mania.
   the battle screen fits in short windows again.
 - **Phones:** the attack animations and Putrid's two scenes shrink the text to fit instead of wrapping.
 - These live in `game/UltraDeluxeArt.cpp` and only use the art from `mopmania_art`.
+
+## Edition 10 — sound is back, select colors
+- **Sound:** the team's 27 original sound files were found in the old repo's history (they had been
+  committed in 2024, then removed). They're converted to MP3 (24 MB instead of 406 MB of WAV) in
+  `dist/sounds/`. The web page plays them (use the Sound button to mute); the terminal version plays
+  them too (`afplay` on Mac; `ffplay`/`mpg123` on Linux), or `game/sounds/*.wav` if you have the WAVs.
+- Fixed the Linux sound command, which had never worked.
+- **Character select:** each character's art is drawn in white so it doesn't blend into the yellow
+  descriptions.

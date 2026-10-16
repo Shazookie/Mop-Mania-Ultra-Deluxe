@@ -74,6 +74,7 @@ int Start_Menu()
 		int x;
 		color(7);
 		std::cout << "\n";
+		color(7);	//Ultra Deluxe: art in white so it stands out from the yellow text
 		showSelectArt("Broomba");	//Ultra Deluxe: large front art
 		color(8); std::cout << "[1]: "; color(6); std::cout << "Broomba, the Explosive Custodian" << std::endl;
 		Sdelay(2);
@@ -85,6 +86,7 @@ int Start_Menu()
 		Sdelay(3);
 
 		std::cout << "\n";
+		color(7);	//Ultra Deluxe: art in white so it stands out from the yellow text
 		showSelectArt("JetWet");	//Ultra Deluxe: large front art
 		color(8); std::cout << "[2]: "; color(6); std::cout << "Swifter JetWet, the Splashy Sentinel" << std::endl;
 		Sdelay(2);
@@ -97,6 +99,7 @@ int Start_Menu()
 		Sdelay(3);
 
 		std::cout << "\n";
+		color(7);	//Ultra Deluxe: art in white so it stands out from the yellow text
 		showSelectArt("BysonV8");	//Ultra Deluxe: large front art
 		color(8); std::cout << "[3]: "; color(6); std::cout << "Byson V8, the cyclonic custodian" << std::endl;
 		Sdelay(2);

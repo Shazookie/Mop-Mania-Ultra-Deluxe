@@ -33,17 +33,10 @@ Visual Studio setup won't build this edition.
 
 ## Sound
 
-The `.wav` files were in `.gitignore`, so they never made it into the repo.
-If you still have them, the game will use them:
-
-- **Terminal:** put them in `game/sounds/`.
-- **Web:** put them in a `sounds/` folder next to `index.html`. A *Sound*
-  button appears once one loads.
-
-The game expects these names: background, BAH, battle!, battlemusic, coins!,
-creativity, cricket, death, door, ending, fanfare, gameover, GoDown, horror,
-jazzybeat, Mattari, MattariCore, metalPipe, OE, putrid, riser, terror,
-TheGrimeReaper, u-s-eas-system-full, victory!, vine-boom, void (each `.wav`).
+The sounds are MP3s in `dist/sounds/` (recovered from the original repo's history and converted
+from WAV). The web page plays them from a `sounds/` folder next to `index.html`, so host that
+folder along with the page. The terminal version finds them there too; on Linux it needs
+`ffplay` or `mpg123` installed.
 
 ## How the port works
 

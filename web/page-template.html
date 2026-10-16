@@ -280,14 +280,13 @@ kbd {
   term.loadAddon(fit);
 
   // ---- sound ---------------------------------------------------------
-  // Plays sounds/<name>.wav if those files sit next to this page.
-  // The original .wav files were never committed, so this is often silent;
-  // the Sound button only appears once a file actually loads.
+  // Plays sounds/<name>.mp3 from next to this page (the game asks for "<name>.wav").
+  // The Sound button appears once a file loads.
   let audio = null, soundOn = store.get("mm-sound") !== "off";
   function stopSound() { if (audio) { audio.pause(); audio.src = ""; audio = null; } }
   function playSound(name, loop) {
     stopSound();
-    const a = new Audio("sounds/" + encodeURIComponent(name));
+    const a = new Audio("sounds/" + encodeURIComponent(name.replace(/\.wav$/i, ".mp3")));
     a.loop = loop;
     a.muted = !soundOn;
     a.addEventListener("canplay", () => { soundBtn.hidden = false; }, { once: true });

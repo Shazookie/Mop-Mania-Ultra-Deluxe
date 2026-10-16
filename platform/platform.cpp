@@ -211,14 +211,20 @@ static void stop_sound() {
 
 static void play_file(const std::string& name, bool loop) {
     stop_sound();
+    // game/sounds/<name>.wav if you have the originals, otherwise the MP3s in dist/sounds/
     std::string path = "sounds/" + name;
-    if (access(path.c_str(), R_OK) != 0) return;  // no sound files: play silently
+    if (access(path.c_str(), R_OK) != 0) {
+        std::string base = name.substr(0, name.find_last_of('.'));
+        path = "../dist/sounds/" + base + ".mp3";
+        if (access(path.c_str(), R_OK) != 0) return;  // no sound files: play silently
+    }
 #ifdef __APPLE__
-    std::string player = "afplay";
+    std::string one = "afplay \"$0\" >/dev/null 2>&1";
 #else
-    std::string player = "(paplay || aplay -q)";
+    // Linux: the first player that's installed (ffplay and mpg123 handle MP3)
+    std::string one = "{ ffplay -nodisp -autoexit -loglevel quiet \"$0\" || mpg123 -q \"$0\""
+                      " || paplay \"$0\" || aplay -q \"$0\"; } >/dev/null 2>&1";
 #endif
-    std::string one = player + " \"$0\" >/dev/null 2>&1";
     std::string script = loop ? "while :; do " + one + " || exit; done" : one;
     pid_t pid = fork();
     if (pid == 0) {
