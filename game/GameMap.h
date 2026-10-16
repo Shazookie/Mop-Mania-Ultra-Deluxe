@@ -71,6 +71,7 @@ public:
 	void birth_midChild(locationNode* mommy, std::string n, std::string d1, std::string d2, event* ev);
 	void birth_rightChild(locationNode* mommy, std::string n, std::string d1, std::string d2, event* ev);
 	void setRusty(locationNode* n);
+	void setCellar(locationNode* n);	//Ultra Deluxe: for the [s] shop option
 	void setMailbox(locationNode* n);
 
 	//moving index
@@ -98,6 +99,7 @@ private:
 	locationNode* index = NULL;
 	locationNode* user = NULL;
 	locationNode* rustyBucket = NULL;
+	locationNode* cellar = NULL;	//Ultra Deluxe
 	locationNode* mailbox = NULL;
 	locationNode* hospital = NULL;
 	int size = 0;

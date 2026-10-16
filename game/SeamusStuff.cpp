@@ -39,12 +39,13 @@ static bool putridCanAfford(character& c, int cost)
     color(7);
     return false;
 }
-void cellarEvent::trigger(character& c)
+// Ultra Deluxe: Putrid Python's shop, opened from the Cellar menu with [s].
+void cellarEvent::shop(character& c)
 {
     bool killy = false;
     bool killswitch = false;
     bool kill = false;
-    if (this->isDone == true) {
+    {
         endMusic();
         playMusic("putrid.wav");
 
@@ -59,7 +60,8 @@ void cellarEvent::trigger(character& c)
                 color(5); cout << "|"; color(8); cout << "[1]: "; color(7); cout << "Potionsss" << std::endl;
                 color(5); cout << "|"; color(8); cout << "[2]: "; color(7); cout << "Specialty Itemsss" << std::endl;
                 color(5); cout << "|"; color(8); cout << "[3]: "; color(7); cout << "Play Game" << std::endl;// neat? not my code tho
-                color(5); cout << "|"; color(8); cout << "[4]: "; color(7); cout << "Exit" << std::endl;
+                color(5); cout << "|"; color(8); cout << "[4]: "; color(7); cout << "Talk" << std::endl;	//Ultra Deluxe
+                color(5); cout << "|"; color(8); cout << "[5]: "; color(7); cout << "Exit" << std::endl;
                 color(5); cout << "<~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~{" << std::endl;
 
             int choice;
@@ -194,7 +196,13 @@ void cellarEvent::trigger(character& c)
                     endMusic();
                     playMusic("putrid.wav");
                     continue;
-                case 4:
+                case 4:	//Ultra Deluxe: talk to Putrid Python (lines still to be written)
+                    color(5);
+                    cout << "[PUTRID: talks with you]" << endl;
+                    color(7);
+                    system("pause");
+                    continue;
+                case 5:
                     color(5);
                     cout << "I'll s"; MSdelay(200); cout << "s"; MSdelay(200); cout << "s"; MSdelay(200); cout << "s"; MSdelay(200); cout << "ee you again s"; MSdelay(200); cout << "s"; MSdelay(200); cout << "s"; MSdelay(200); cout << "s"; MSdelay(200); cout << "oon" << endl; MSdelay(4000);
                     endMusic();
@@ -209,6 +217,13 @@ void cellarEvent::trigger(character& c)
                 }
             }
         }
+    }
+}
+
+void cellarEvent::trigger(character& c)
+{
+    if (this->isDone == true) {
+        return;	//Ultra Deluxe: after the first visit, the shop opens from the Cellar menu instead
     }
     else {
         clear();

@@ -68,6 +68,7 @@ int main()
 	map.birth_rightChild(map.getIndex(), "Storage Room", "All the empty canisters have been cleaned out of the room", "The room is nicely cleaned and filled with anesthesia bottles", storageRoom);
 	map.birth_midChild(map.getIndex(), "Mental Health Room", "You see lots of encouraging posters on the walls", "One says 'Do you feel like a mess? Time to decompress!", mental);
 	map.birth_leftChild(map.getIndex(), "Cellar", "This is Putrid Python's hole in the wall shop", "Haha... get it... cuz its literally a hole in the wall?", cellar);
+	map.setCellar(map.getIndex()->getLeft());	//Ultra Deluxe
 
 	color(2);
 	std::cout << "Mop Mania Ultra Deluxe: The Purging of Le' Hospitale";

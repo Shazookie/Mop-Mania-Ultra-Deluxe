@@ -51,6 +51,7 @@ class cellarEvent : public event	//putrid python (Seamus)
 public:
 	cellarEvent();
 	void trigger(character& c);
+	void shop(character& c);	//Ultra Deluxe: opened with [s] from the Cellar menu
 };
 
 //mailbox

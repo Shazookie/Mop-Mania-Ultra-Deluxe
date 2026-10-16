@@ -175,6 +175,9 @@ void gameMap::birth_rightChild(locationNode* mommy, std::string t, std::string d
 void gameMap::setRusty(locationNode* n) {
 	rustyBucket = n;
 }
+void gameMap::setCellar(locationNode* n) {
+	cellar = n;
+}
 void gameMap::setMailbox(locationNode* n) {
 	mailbox = n;
 }
@@ -492,6 +495,12 @@ void gameMap::play(locationNode* i, character& c, int ifPaused) {
 
 	//if current node has all 3 children
 	whereText();	//where to next?
+	if (i == this->cellar) {	//Ultra Deluxe: Putrid Python's shop is always one key away
+		color(8);
+		std::cout << "[s]: ";
+		color(7);
+		std::cout << "Enter Putrid Python's Shop" << std::endl;
+	}
 	if (i->getLeft() != NULL && i->getMid() != NULL && i->getRight() != NULL) {
 		color(8);
 		std::cout << "[l]: ";
@@ -681,6 +690,13 @@ void gameMap::play(locationNode* i, character& c, int ifPaused) {
 	}
 	else if (choose == "b" && i != root && i->getParent() != NULL) {	//back
 		play(i->getParent(), c, 0);
+	}
+	else if (choose == "s" && i == this->cellar) {	//Ultra Deluxe: Putrid Python's shop
+		clear();
+		static_cast<cellarEvent*>(i->getEvent())->shop(c);
+		endMusic();
+		playMusic("background.wav");
+		play(i, c, 1);
 	}
 	else if (choose == "p") {	//pause menu
 		int pause = Pause_Menu(i, c);

@@ -45,3 +45,9 @@ Changes compared with the original Mop Mania.
 - The high score is kept on the character so it can be saved once saving exists.
 - The web page header shows the version ("Version 4"). It comes from the newest "Edition" heading in
   this file, so it updates by itself.
+
+## Edition 5 — Putrid Python's shop entrance
+- **The Cellar menu always has `[s]: Enter Putrid Python's Shop`.** Walking back into the Cellar no
+  longer opens the shop by itself; the shop opens from `[s]`.
+- **Putrid's shop menu:** [1] Potions, [2] Specialty Items, [3] Play Game, **[4] Talk** (new; his lines
+  are a placeholder `[PUTRID: talks with you]` until Seamus writes them), [5] Exit.
