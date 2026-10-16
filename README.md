@@ -1,10 +1,12 @@
-# Mop Mania: The Purging of Le' Hospitale
+# Mop Mania Ultra Deluxe
 
-A text RPG by Joshua Fouch, Seamus Sommers, and Eljay Jimenez.
+Seamus's edition of *Mop Mania: The Purging of Le' Hospitale*, the text RPG by
+Joshua Fouch, Seamus Sommers, and Eljay Jimenez. See `CHANGELOG.md` for what is
+different from the original.
 
 The original only ran on Windows through Visual Studio. This copy also runs on
-macOS and Linux, and in any modern web browser. The game code in `game/` is
-exactly the team's code; nothing in it was changed.
+macOS and Linux, and in any modern web browser. The game code in `game/` started as the team's
+code and is where Ultra Deluxe changes are made.
 
 ## Play it in a browser
 

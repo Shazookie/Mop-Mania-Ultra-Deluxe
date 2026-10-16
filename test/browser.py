@@ -1,6 +1,6 @@
 import asyncio, sys, os
 from playwright.async_api import async_playwright
-ROOT = "/home/claude/mopmania"
+ROOT = sys.argv[2] if len(sys.argv) > 2 else "/home/claude/mopmania"
 NPM = "/home/claude/tools/npm"
 OUT = sys.argv[1]
 LOCAL = {

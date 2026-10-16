@@ -1,6 +1,6 @@
-<title>Mop Mania</title>
+<title>Mop Mania Ultra Deluxe</title>
 <meta name="claude:viewport-fit-sides" content="cover">
-<meta name="description" content="Mop Mania: The Purging of Le' Hospitale. A text RPG by Joshua Fouch, Seamus Sommers, and Eljay Jimenez.">
+<meta name="description" content="Mop Mania Ultra Deluxe: The Purging of Le' Hospitale. A text RPG by Joshua Fouch, Seamus Sommers, and Eljay Jimenez.">
 <link rel="preconnect" href="https://fonts.googleapis.com">
 <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
 <link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Big+Shoulders+Stencil+Display:wght@800&family=Archivo:wght@400;600&family=IBM+Plex+Mono:wght@400;600&display=swap">
@@ -54,6 +54,18 @@ body {
   letter-spacing: 0.02em;
   color: var(--bucket);
   text-transform: uppercase;
+}
+.edition {
+  display: inline-block;
+  vertical-align: 0.32em;
+  margin-left: 4px;
+  padding: 3px 7px 2px;
+  font: 800 0.8rem/1 var(--font-display);
+  letter-spacing: 0.08em;
+  color: var(--screen);
+  background: var(--bucket);
+  border-radius: 3px;
+  transform: rotate(-3deg);
 }
 .brand p { margin: 0; color: var(--muted); font-size: 0.9rem; }
 .controls { display: flex; align-items: center; gap: 8px; flex-wrap: wrap; }
@@ -131,7 +143,7 @@ kbd {
 
 <header class="bar">
   <div class="brand">
-    <h1>Mop Mania</h1>
+    <h1>Mop Mania <span class="edition">Ultra Deluxe</span></h1>
     <p>The Purging of Le' Hospitale</p>
   </div>
   <div class="controls">
@@ -332,7 +344,7 @@ kbd {
       if (!window.matchMedia("(pointer: coarse)").matches) term.focus();
       start();
     } catch (e) {
-      $("loading").innerHTML = '<p class="error">Mop Mania could not load in this browser (' +
+      $("loading").innerHTML = '<p class="error">Mop Mania Ultra Deluxe could not load in this browser (' +
         String(e && e.message ? e.message : e).replace(/[<>&]/g, "") +
         "). Try a current version of Chrome, Edge, Firefox or Safari.</p>";
       setStatus("done");
