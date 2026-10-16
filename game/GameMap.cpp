@@ -241,6 +241,48 @@ void gameMap::displayLocationAgain(locationNode* i)
 	std::cout << "|" << std::string(nameLen, '-') << "|\n";
 }
 
+// Ultra Deluxe: what you hear when you type a direction (or key) that isn't on the menu.
+// The speakers take turns: Janitorius, then Mom, then something Rusty once told you.
+static void quickDots()
+{
+	MSdelay(300); std::cout << "."; MSdelay(300); std::cout << "."; MSdelay(300); std::cout << "."; MSdelay(700);
+}
+
+void gameMap::wrongWay(character& c)
+{
+	static int speaker = 0;
+	clear();
+	switch (speaker) {
+	case 0:	// Janitorius
+		color(6);
+		std::cout << "Janitorius: You"; quickDots(); std::cout << std::endl;
+		std::cout << "can't go that way"; quickDots(); std::cout << std::endl;
+		std::cout << "Please try again." << std::endl;
+		break;
+	case 1:	// Mom
+		color(8);
+		std::cout << "*You remember your mother's voice*" << std::endl;
+		MSdelay(1200);
+		color(2);
+		std::cout << c.get_name() << " Mom: Honey, I just love you so much." << std::endl;
+		MSdelay(1500);
+		std::cout << "And we are all great in our own way"; quickDots(); std::cout << std::endl;
+		std::cout << "But yours has never been navigation." << std::endl;
+		break;
+	default:	// Rusty
+		color(8);
+		std::cout << "*You remember something Rusty told you*" << std::endl;
+		MSdelay(1200);
+		std::cout << "Rusty: Hey, it's 5 o'clock somewhere"; quickDots(); std::cout << std::endl;
+		std::cout << "Hm, I'm not sure if that was helpful"; quickDots(); std::cout << std::endl;
+		std::cout << "You should probably try a different input." << std::endl;
+		break;
+	}
+	color(7);
+	MSdelay(1800);
+	speaker = (speaker + 1) % 3;
+}
+
 int gameMap:: Pause_Menu(locationNode* i, character& c)
 {
 	clear();
@@ -651,8 +693,9 @@ void gameMap::play(locationNode* i, character& c, int ifPaused) {
 		}
 	}
 	else {
-		// Ultra Deluxe: a wrong key just shows this room's menu again
-		// (it used to replay the room's event, e.g. reopening Putrid's shop or the Rusty Bucket intro)
+		// Ultra Deluxe: someone tells you that's not a way you can go, then the room's menu shows again
+		// (a wrong key used to replay the room's event, e.g. reopening Putrid's shop or the Rusty Bucket intro)
+		wrongWay(c);
 		play(i, c, 1);
 	}
 }

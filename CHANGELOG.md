@@ -19,3 +19,18 @@ Changes compared with the original Mop Mania.
 - **Pause menu:** "Go back to beginning" is now "Return Home" and "Go back" is now "Resume Game" (same order).
 - **Rusty Bucket drinks:** [4] Exit goes back to the Rusty Bucket menu (the code used to check for 5).
 - **Wax-coat** now has the same pause after buying as the other potions.
+
+## Edition 3 — moves, voices, Rusty Bucket
+- **Every move does something different now** (see `game/UltraDeluxeMoves.cpp`). The Attack Descriptions
+  screen lists each move's damage, accuracy and effect.
+  - Broomba: Vacuum Vortex (100%, heals you 25% of damage dealt), Turbo Takedown (80%, 35% daze),
+    Debris Dash (90%, ignores half of enemy defense), Dust Buster Blitz (160%, then a turn to recharge)
+  - JetWet: Mop'n Drop (110%, enemy defense −10%), Jittery Jetstream (80%, 30% daze),
+    Foam Frenzy (50%, enemy attacks 40% likely to miss for 2 turns), Scrubbing Surge (100% + bubbles 3 turns)
+  - Byson: Filth Flurry (3 hits × 40%, 80% accurate each), Turbo Tornado (90%, 30% daze),
+    Particle Pulse (70%, enemy attack −15%, stacks), Dust Storm Surge (60% + dust storm 4 turns)
+  - Effects reset at the start of every battle.
+- **Wrong way voices:** typing a direction or key that isn't on the map menu gets a short line from
+  Janitorius, then Mom, then something Rusty once told you (they take turns).
+- **Rusty Bucket:** the full walk-in description only plays on your first visit. Later visits show
+  two quick lines, then the options.

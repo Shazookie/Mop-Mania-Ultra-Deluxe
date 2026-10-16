@@ -1,6 +1,7 @@
 #ifndef ENEMY
 #define ENEMY
 #include <cstdlib>
+#include <string>
 
 //forward declaration
 class character;
@@ -50,6 +51,18 @@ public:
 	virtual void Heal(character& c);
 	virtual void Fortify(character& c);
 	virtual void Enrage(character& c);
+
+	// Ultra Deluxe: effects from the player's moves (see UltraDeluxeMoves.cpp)
+	bool ud_stunned = false;	// loses its next turn
+	int ud_slipperyTurns = 0;	// its attacks can miss for this many turns
+	int ud_dotTurns = 0;		// takes ud_dotDamage at the start of this many turns
+	int ud_dotDamage = 0;
+	std::string ud_dotText;		// what happens when the damage-over-time ticks
+	int ud_attTaken = 0;		// attack / defense removed by debuffs this battle (given back next battle)
+	int ud_defTaken = 0;
+	void ud_lowerAtt(int amount);
+	void ud_lowerDef(int amount);
+	void ud_resetEffects();
 
 private:
 

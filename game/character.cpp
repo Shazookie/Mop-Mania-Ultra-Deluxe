@@ -1,6 +1,7 @@
 #include "character.h"
 #include "enemy.h"
 #include "utility.h"
+#include "UltraDeluxeMoves.h"
 #include <random>
 
 //BASE CHARACTER DEFINITIONS
@@ -939,13 +940,13 @@ void Broomba::describeAttacks()
 {
     color(8);  //gray colored text
     std::cout << get_aName1() << ": Creates a swirling vortex of suction, pulling anything into its cleaning chamber and draining their energy.\n";
-    std::cout << "\t" << std::endl;
+    std::cout << "\t[Damage: 100% | Accuracy: 100% | Heals you 25% of the damage dealt]" << std::endl;
     std::cout << get_aName2() << ": Charges forward at the breakneck speed, ramming into anything with incredible force, leavin them dazed and vulnerable.\n";
-    std::cout << "\t" << std::endl;
+    std::cout << "\t[Damage: 80% | Accuracy: 100% | 35% chance to daze (enemy loses its next turn)]" << std::endl;
     std::cout << get_aName3() << ": Dashes around the battlefield, collecting debris and launching it at opponents with precise aim.\n";
-    std::cout << "\t" << std::endl;
+    std::cout << "\t[Damage: 90% | Accuracy: 100% | Ignores half of the enemy's defense]" << std::endl;
     std::cout << get_aName4() << ": Unleashes a rapid barrage of expolosive energy pulses, homing in on anything across the battlefield and disintegrating any dirt, dust, or foes in its path.\n"; //some sort of fire periodic damage?
-    std::cout << "\t" << std::endl;
+    std::cout << "\t[Damage: 160% | Accuracy: 100% | Needs a turn to recharge after use]" << std::endl;
     std::cout << std::endl;
     system("pause");
     color(7);
@@ -959,32 +960,48 @@ void Broomba::Attack1(enemy& e)
 {
     color(2);
     std::cout << "\tVacuum Vortex!" << std::endl;
-    e.damaged(this->get_att());
     color(7);
+    // Ultra Deluxe: normal hit, heals you 25% of the damage dealt
+    int dealt = ud_hit(e, ud_normalDamage(*this, e));
+    int heal = dealt / 4;
+    if (heal > get_maxhp() - get_hp()) heal = get_maxhp() - get_hp();
+    if (heal > 0) {
+        set_hp(get_hp() + heal);
+        color(2); std::cout << "You drained " << heal << " HP!" << std::endl; color(7);
+    }
 } 
 //Turbo Takedown
 void Broomba::Attack2(enemy& e)   //Turbo Takedown
 {
     color(2);
     std::cout << "\tTurbo Takedown!" << std::endl;
-    e.damaged(this->get_att());
     color(7);
+    // Ultra Deluxe: 80% damage, 35% chance to daze
+    ud_hit(e, ud_normalDamage(*this, e) * 80 / 100);
+    if (e.get_hp() > 0 && ud_chance(35)) {
+        e.ud_stunned = true;
+        color(6); std::cout << e.get_name() << " is dazed!" << std::endl; color(7);
+    }
 }
 //Debris Dash
 void Broomba::Attack3(enemy& e) 
 {
     color(2);
     std::cout << "\tDebris Dash!" << std::endl;
-    e.damaged(this->get_att());
     color(7);
+    // Ultra Deluxe: 90% damage, ignores half of the enemy's defense
+    ud_hit(e, ud_normalDamage(*this, e, 0.25) * 90 / 100);
 }
 //Dust Buster Blitz
 void Broomba::Attack4(enemy& e)
 {
     color(2);
     std::cout << "\tDust Buster Blitz!" << std::endl;
-    e.damaged(this->get_att());
     color(7);
+    // Ultra Deluxe: 160% damage, then needs a turn to recharge
+    ud_hit(e, ud_normalDamage(*this, e) * 160 / 100);
+    ud_recharge = 2;
+    color(8); std::cout << "Dust Buster Blitz needs a turn to recharge." << std::endl; color(7);
 }
 
 
@@ -1024,13 +1041,13 @@ void SwifterJetWet::describeAttacks()
 {
     color(8);  //gray colored text
     std::cout << get_aName1() << ": Swings its mop, unleashing a powerful downward strike, drenching the opponent in a flood of cleaning solution.\n";
-    std::cout << "\t" << std::endl;
+    std::cout << "\t[Damage: 110% | Accuracy: 100% | Lowers enemy defense by 10% for the battle]" << std::endl;
     std::cout << get_aName2() << ": Propels itself forward with incredible speed, leaving behind a turbulent stream of water that disorients and knocks back foes.\n";
-    std::cout << "\t" << std::endl;
+    std::cout << "\t[Damage: 80% | Accuracy: 100% | 30% chance to daze (enemy loses its next turn)]" << std::endl;
     std::cout << get_aName3() << ": Releases a cloud of foamy bubbles that envelop the battle field, creating a slippery terrain and hindering opponenets' movement.\n";
-    std::cout << "\t" << std::endl;
+    std::cout << "\t[Damage: 50% | Accuracy: 100% | Enemy attacks have a 40% chance to miss for 2 turns]" << std::endl;
     std::cout << get_aName4() << ": Channels its energy into a concentrated burst, launching a high-presure jet of water that cleanses all in its path, dealing damge and periodic bubble damage.\n"; //Do oeriodic buuble type damage in the future?
-    std::cout << "\t" << std::endl;
+    std::cout << "\t[Damage: 100% | Accuracy: 100% | Bubble damage (15% of your attack) for 3 turns]" << std::endl;
     std::cout << std::endl;
     system("pause");
     color(7);
@@ -1043,32 +1060,56 @@ void SwifterJetWet::Attack1(enemy& e)
 {
     color(2);
     std::cout << "\tMop'n Drop!" << std::endl;
-    e.damaged(this->get_att());
     color(7);
+    // Ultra Deluxe: 110% damage, lowers enemy defense by 10% for the rest of the battle
+    ud_hit(e, ud_normalDamage(*this, e) * 110 / 100);
+    if (e.get_hp() > 0 && e.get_def() > 0) {
+        int drop = e.get_def() / 10;
+        if (drop < 1) drop = 1;
+        e.ud_lowerDef(drop);
+        color(6); std::cout << e.get_name() << " is drenched! Defense down by " << drop << "." << std::endl; color(7);
+    }
 }
 //Jittery Jetscream
 void SwifterJetWet::Attack2(enemy& e)
 {
     color(2);
     std::cout << "\tJittery Jetscream!" << std::endl;
-    e.damaged(this->get_att());
     color(7);
+    // Ultra Deluxe: 80% damage, 30% chance to daze
+    ud_hit(e, ud_normalDamage(*this, e) * 80 / 100);
+    if (e.get_hp() > 0 && ud_chance(30)) {
+        e.ud_stunned = true;
+        color(6); std::cout << e.get_name() << " is dazed!" << std::endl; color(7);
+    }
 }
 //Foam Frenzy
 void SwifterJetWet::Attack3(enemy& e)
 {
     color(2);
     std::cout << "\tFoam Frenzy!" << std::endl;
-    e.damaged(this->get_att());
     color(7);
+    // Ultra Deluxe: 50% damage, enemy attacks have a 40% chance to miss for 2 turns
+    ud_hit(e, ud_normalDamage(*this, e) * 50 / 100);
+    if (e.get_hp() > 0) {
+        e.ud_slipperyTurns = 2;
+        color(3); std::cout << "The floor is covered in slippery foam!" << std::endl; color(7);
+    }
 }
 //Scrubbing Surge
 void SwifterJetWet::Attack4(enemy& e)
 {
     color(2);
     std::cout << "\tScrubbing Surge!" << std::endl;
-    e.damaged(this->get_att());
     color(7);
+    // Ultra Deluxe: 100% damage, plus bubble damage (15% of your attack) for 3 turns
+    ud_hit(e, ud_normalDamage(*this, e));
+    if (e.get_hp() > 0) {
+        e.ud_dotTurns = 3;
+        e.ud_dotDamage = get_att() * 15 / 100;
+        e.ud_dotText = "is stung by lingering bubbles!";
+        color(3); std::cout << e.get_name() << " is covered in bubbles!" << std::endl; color(7);
+    }
 }
 
 
@@ -1106,13 +1147,13 @@ void BysonV8::describeAttacks()
 {
     color(8);  //gray colored text
     std::cout << get_aName1() << ": Unleashes a rapid series of punches and kicks infused with energy, creating a whirlwind of cleaning fury that pulverizes opponets.\n";
-    std::cout << "\t" << std::endl;
+    std::cout << "\t[Damage: 3 hits of 40% | Accuracy: 80% per hit]" << std::endl;
     std::cout << get_aName2() << ": Spins rapidly, generating a powerful tornado of air and debris that engulfs enemies, tossing them around.\n";
-    std::cout << "\t" << std::endl;
+    std::cout << "\t[Damage: 90% | Accuracy: 100% | 30% chance to daze (enemy loses its next turn)]" << std::endl;
     std::cout << get_aName3() << ": Emits a burst of energy particles that seek out and bombard opponents, disrupting their movements and sapping their strength.\n";
-    std::cout << "\t" << std::endl;
+    std::cout << "\t[Damage: 70% | Accuracy: 100% | Lowers enemy attack by 15% (stacks)]" << std::endl;
     std::cout << get_aName4() << ": Summons a massive dust sotrm, engulfing the battlefield and dealing continuous damage to all caught within its swirling vortex of cleaning power.\n"; //Maybe do periodic damage in the future?
-    std::cout << "\t" << std::endl;
+    std::cout << "\t[Damage: 60% | Accuracy: 100% | Plus 20% of your attack every turn for 4 turns]" << std::endl;
     std::cout << std::endl;
     system("pause");
     color(7);
@@ -1124,32 +1165,60 @@ void BysonV8::describeAttacks()
 void BysonV8::Attack1(enemy& e)
 {
     color(2);
-    //PlaySound(TEXT("metalPipe.wav"), NULL, SND_FILENAME | SND_ASYNC | SND_NOSTOP);
     std::cout << "\tFilth Flurry!" << std::endl;
-    e.damaged(this->get_att());
     color(7);
+    // Ultra Deluxe: 3 quick hits of 40% damage, each 80% accurate
+    int each = ud_normalDamage(*this, e) * 40 / 100;
+    for (int hitNum = 0; hitNum < 3 && e.get_hp() > 0; hitNum++) {
+        if (ud_chance(80)) {
+            ud_hit(e, each);
+        }
+        else {
+            color(8); std::cout << "Missed!" << std::endl; color(7);
+            MSdelay(500);
+        }
+    }
 }
 //Turbo Tornado
 void BysonV8::Attack2(enemy& e)
 {
     color(2);
     std::cout << "\tTurbo Tornado!" << std::endl;
-    e.damaged(this->get_att());
     color(7);
+    // Ultra Deluxe: 90% damage, 30% chance to daze
+    ud_hit(e, ud_normalDamage(*this, e) * 90 / 100);
+    if (e.get_hp() > 0 && ud_chance(30)) {
+        e.ud_stunned = true;
+        color(6); std::cout << e.get_name() << " is dazed!" << std::endl; color(7);
+    }
 }
 //Partical Pulse
 void BysonV8::Attack3(enemy& e)
 {
     color(2);
     std::cout << "\tPartical Pulse!" << std::endl;
-    e.damaged(this->get_att());
     color(7);
+    // Ultra Deluxe: 70% damage, lowers enemy attack by 15% (stacks)
+    ud_hit(e, ud_normalDamage(*this, e) * 70 / 100);
+    if (e.get_hp() > 0 && e.get_att() > 1) {
+        int drop = e.get_att() * 15 / 100;
+        if (drop < 1) drop = 1;
+        e.ud_lowerAtt(drop);
+        color(6); std::cout << e.get_name() << " is weakened! Attack down by " << drop << "." << std::endl; color(7);
+    }
 }
 //Dust Storm Surge
 void BysonV8::Attack4(enemy& e)
 {
     color(2);
     std::cout << "\tDust Storm Surge!" << std::endl;
-    e.damaged(this->get_att());
     color(7);
+    // Ultra Deluxe: 60% damage now, plus 20% of your attack every turn for 4 turns
+    ud_hit(e, ud_normalDamage(*this, e) * 60 / 100);
+    if (e.get_hp() > 0) {
+        e.ud_dotTurns = 4;
+        e.ud_dotDamage = get_att() * 20 / 100;
+        e.ud_dotText = "is caught in the dust storm!";
+        color(3); std::cout << "A dust storm swirls around " << e.get_name() << "!" << std::endl; color(7);
+    }
 }

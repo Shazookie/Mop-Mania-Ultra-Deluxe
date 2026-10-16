@@ -90,6 +90,7 @@ public:
 	void displayLocation(locationNode* i);
 	void displayLocationAgain(locationNode* i);
 	int Pause_Menu(locationNode* i, character& c);
+	void wrongWay(character& c);	//Ultra Deluxe: rotating "you can't go that way" lines
 
 
 private:

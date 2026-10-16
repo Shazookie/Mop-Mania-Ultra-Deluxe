@@ -72,6 +72,31 @@ void enemy::add_att(int val) {
 void enemy::add_def(int val) {
 	this->def += val;
 }
+
+// Ultra Deluxe: move effects
+void enemy::ud_lowerAtt(int amount) {
+	if (amount > this->att - 1) amount = this->att - 1;
+	if (amount < 0) amount = 0;
+	this->att -= amount;
+	ud_attTaken += amount;
+}
+void enemy::ud_lowerDef(int amount) {
+	if (amount > this->def) amount = this->def;
+	if (amount < 0) amount = 0;
+	this->def -= amount;
+	ud_defTaken += amount;
+}
+void enemy::ud_resetEffects() {
+	this->att += ud_attTaken;
+	this->def += ud_defTaken;
+	ud_attTaken = 0;
+	ud_defTaken = 0;
+	ud_stunned = false;
+	ud_slipperyTurns = 0;
+	ud_dotTurns = 0;
+	ud_dotDamage = 0;
+	ud_dotText.clear();
+}
 void enemy::set_stats(int basehp, int baseatt, int basedef, int level)
 {
 	//automatically sets the base stats

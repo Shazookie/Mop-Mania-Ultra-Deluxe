@@ -18,6 +18,18 @@ changed; all edits happen in this project.
 - Scripted playthrough of the web build:
   `node test/play.js "y,1,y,1,m,r,1,1,1" 200` (comma-separated answers; key presses are automatic)
 - After each change: rebuild both, play through the changed part with test/play.js, commit.
+- Move effects: `test/moves_test.cpp` fights each character against a tough enemy (see its header).
+
+## Planned (keep in mind)
+- **Saving** is wanted soon. Keep new game state (rats, snake high score, event flags) in places
+  that are easy to save and load later.
+- **Putrid's snake game:** first game free (1 rat per 5 points); after that 1 rat per game (spent
+  either way); a new high score pays 2 rats + 1 per full 5 points above the old high score.
+  Purple snake, dead rats as food, speeds up as it grows. Seamus writes the dialogue.
+- **Rusty's shop** in the Rusty Bucket: design still being discussed.
+
+## Working with Seamus
+- Ask before writing or changing any dialogue; show him the exact lines.
 
 ## Style
 - Match the existing dialogue tone and pacing (`MSdelay`, `ellipsis()`, `color()`).

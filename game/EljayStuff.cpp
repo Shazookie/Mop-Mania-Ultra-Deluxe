@@ -25,21 +25,32 @@ RustyBucketEvent::RustyBucketEvent() {};
 void RustyBucketEvent::trigger(character& c)
 {
 	bubbleMama bub;
-	Sdelay(2);
-	std::cout << "You entered the Rusty Bucket...." << std::endl;
-	MSdelay(2000);
-	std::cout << "It doesn't seem very lively in here..." << std::endl;
-	MSdelay(3000);
-	std::cout << "But the place looks beautiful on the inside..." << std::endl;
-	MSdelay(4000);
-	std::cout << "With light bouncing off the rusty bucket chandeliers..." << std::endl;
-	MSdelay(4000);
-	std::cout << "Making the place glow with a particular shine..." << std::endl;
-	MSdelay(4000);
-	std::cout << "There seems to be a few places you can stop by..." << std::endl;
-	MSdelay(3000);
+	if (!this->isDone) {	//Ultra Deluxe: the full walk-in only plays on your first visit
+		Sdelay(2);
+		std::cout << "You entered the Rusty Bucket...." << std::endl;
+		MSdelay(2000);
+		std::cout << "It doesn't seem very lively in here..." << std::endl;
+		MSdelay(3000);
+		std::cout << "But the place looks beautiful on the inside..." << std::endl;
+		MSdelay(4000);
+		std::cout << "With light bouncing off the rusty bucket chandeliers..." << std::endl;
+		MSdelay(4000);
+		std::cout << "Making the place glow with a particular shine..." << std::endl;
+		MSdelay(4000);
+		std::cout << "There seems to be a few places you can stop by..." << std::endl;
+		MSdelay(3000);
+		clear();
+		this->isDone = true;
+	}
+	else {	//later visits: two quick lines, then the options
+		clear();
+		std::cout << "This is a great place to buy items, share a drink," << std::endl;
+		MSdelay(500);
+		std::cout << "gain some info, or just hang around." << std::endl;
+		MSdelay(800);
+		std::cout << std::endl;
+	}
 
-	clear();
 	while (true) {
 		endMusic();
 		playMusic("Mattari.wav");

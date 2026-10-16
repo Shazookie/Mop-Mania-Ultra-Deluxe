@@ -1,4 +1,5 @@
 #include "battle.h"
+#include "UltraDeluxeMoves.h"
 #include "character.h"
 #include "enemy.h"
 #include <string>
@@ -64,6 +65,7 @@ void battle::GameOver(character& c)
 
 }
 void battle::battleStart(character& c, enemy& e) {
+	ud_resetBattleEffects(c, e);	//Ultra Deluxe: clear move effects from the last battle
 	playSFX("riser.wav");
 	for (int i = 0; i < 23; i++) {
 		color(2); std::cout << c.get_name() << "!" << std::endl;
@@ -98,13 +100,14 @@ void battle::Battle_Sequence(character& c, enemy& e)
 		color(8); std::cout << "\n[1]: "; color(7); std::cout << c.get_aName1() << std::endl;
 		color(8); std::cout << "[2]: "; color(7); std::cout << c.get_aName2() << std::endl;
 		color(8); std::cout << "[3]: "; color(7); std::cout << c.get_aName3() << std::endl;
-		color(8); std::cout << "[4]: "; color(7); std::cout << c.get_aName4() << std::endl << std::endl;
+		color(8); std::cout << "[4]: "; color(7); std::cout << c.get_aName4() << ud_rechargeTag(c) << std::endl << std::endl;
 		color(8); std::cout << "[5]: "; color(7); std::cout << "Use Item" << std::endl;
 		color(8); std::cout << "[6]: "; color(7); std::cout << "Check stats" << std::endl;
 		color(8); std::cout << "[7]: "; color(7); std::cout << "Attack Descriptions" << std::endl;
 		color(8); std::cout << "[8]: "; color(7); std::cout << "Run (Be a coward)" << std::endl;
 		int choice;
 		std::cin >> choice;
+		choice = ud_checkRecharge(c, choice);	//Ultra Deluxe: move 4 may be recharging
 
 		switch (choice)
 		{
@@ -119,7 +122,7 @@ void battle::Battle_Sequence(character& c, enemy& e)
 			{
 				break;
 			}
-			e.nextMove(c, e.RandomNum());	//its the enemies turn to attack
+			ud_enemyTurn(c, e);	//its the enemies turn to attack
 			MSdelay(2000);
 			clear();
 			break;
@@ -135,7 +138,7 @@ void battle::Battle_Sequence(character& c, enemy& e)
 				clear();
 				break;
 			}
-			e.nextMove(c, e.RandomNum());	//its the enemies turn to attack
+			ud_enemyTurn(c, e);	//its the enemies turn to attack
 			MSdelay(2000);
 			clear();
 			break;
@@ -151,7 +154,7 @@ void battle::Battle_Sequence(character& c, enemy& e)
 				clear();
 				break;
 			}
-			e.nextMove(c, e.RandomNum());	//its the enemies turn to attack
+			ud_enemyTurn(c, e);	//its the enemies turn to attack
 			MSdelay(2000);
 			clear();
 			break;
@@ -167,7 +170,7 @@ void battle::Battle_Sequence(character& c, enemy& e)
 				clear();
 				break;
 			}
-			e.nextMove(c, e.RandomNum());	//its the enemies turn to attack
+			ud_enemyTurn(c, e);	//its the enemies turn to attack
 			MSdelay(2000);
 			clear();
 			break;
@@ -196,7 +199,7 @@ void battle::Battle_Sequence(character& c, enemy& e)
 					clear();
 					break;
 				}
-				e.nextMove(c, e.RandomNum());	//its the enemies turn to attack
+				ud_enemyTurn(c, e);	//its the enemies turn to attack
 				MSdelay(2000);
 				break;
 			}
@@ -342,13 +345,14 @@ void GoodFinalBattle::Battle_Sequence(character& c, enemy& e) {
 		color(8); std::cout << "\n[1]: "; color(7); std::cout << c.get_aName1() << std::endl;
 		color(8); std::cout << "[2]: "; color(7); std::cout << c.get_aName2() << std::endl;
 		color(8); std::cout << "[3]: "; color(7); std::cout << c.get_aName3() << std::endl;
-		color(8); std::cout << "[4]: "; color(7); std::cout << c.get_aName4() << std::endl << std::endl;
+		color(8); std::cout << "[4]: "; color(7); std::cout << c.get_aName4() << ud_rechargeTag(c) << std::endl << std::endl;
 		color(8); std::cout << "[5]: "; color(7); std::cout << "Use Item" << std::endl;
 		color(8); std::cout << "[6]: "; color(7); std::cout << "Check stats" << std::endl;
 		color(8); std::cout << "[7]: "; color(7); std::cout << "Attack Descriptions" << std::endl;
 		color(8); std::cout << "[8]: "; color(7); std::cout << "Run (Be a coward)" << std::endl;
 		int choice;
 		std::cin >> choice;
+		choice = ud_checkRecharge(c, choice);	//Ultra Deluxe: move 4 may be recharging
 
 		switch (choice)
 		{
@@ -363,7 +367,7 @@ void GoodFinalBattle::Battle_Sequence(character& c, enemy& e) {
 			{
 				break;
 			}
-			e.nextMove(c, e.RandomNum());	//its the enemies turn to attack
+			ud_enemyTurn(c, e);	//its the enemies turn to attack
 			statCounter++;
 			MSdelay(2000);
 			clear();
@@ -380,7 +384,7 @@ void GoodFinalBattle::Battle_Sequence(character& c, enemy& e) {
 				clear();
 				break;
 			}
-			e.nextMove(c, e.RandomNum());	//its the enemies turn to attack
+			ud_enemyTurn(c, e);	//its the enemies turn to attack
 			statCounter++;
 			MSdelay(2000);
 			clear();
@@ -397,7 +401,7 @@ void GoodFinalBattle::Battle_Sequence(character& c, enemy& e) {
 				clear();
 				break;
 			}
-			e.nextMove(c, e.RandomNum());	//its the enemies turn to attack
+			ud_enemyTurn(c, e);	//its the enemies turn to attack
 			statCounter++;
 			MSdelay(2000);
 			clear();
@@ -414,7 +418,7 @@ void GoodFinalBattle::Battle_Sequence(character& c, enemy& e) {
 				clear();
 				break;
 			}
-			e.nextMove(c, e.RandomNum());	//its the enemies turn to attack
+			ud_enemyTurn(c, e);	//its the enemies turn to attack
 			statCounter++;
 			MSdelay(2000);
 			clear();
@@ -447,7 +451,7 @@ void GoodFinalBattle::Battle_Sequence(character& c, enemy& e) {
 					c.resetRun();
 					break;
 				}
-				e.nextMove(c, e.RandomNum());	//its the enemies turn to attack
+				ud_enemyTurn(c, e);	//its the enemies turn to attack
 				statCounter++;
 				MSdelay(2000);
 				break;
@@ -675,13 +679,14 @@ void BubbleBattle::Battle_Sequence(character& c, enemy& e) {
 		color(8); std::cout << "\n[1]: "; color(7); std::cout << c.get_aName1() << std::endl;
 		color(8); std::cout << "[2]: "; color(7); std::cout << c.get_aName2() << std::endl;
 		color(8); std::cout << "[3]: "; color(7); std::cout << c.get_aName3() << std::endl;
-		color(8); std::cout << "[4]: "; color(7); std::cout << c.get_aName4() << std::endl << std::endl;
+		color(8); std::cout << "[4]: "; color(7); std::cout << c.get_aName4() << ud_rechargeTag(c) << std::endl << std::endl;
 		color(8); std::cout << "[5]: "; color(7); std::cout << "Use Item" << std::endl;
 		color(8); std::cout << "[6]: "; color(7); std::cout << "Check stats" << std::endl;
 		color(8); std::cout << "[7]: "; color(7); std::cout << "Attack Descriptions" << std::endl;
 		color(8); std::cout << "[8]: "; color(7); std::cout << "Run (Be a coward)" << std::endl;
 		int choice;
 		std::cin >> choice;
+		choice = ud_checkRecharge(c, choice);	//Ultra Deluxe: move 4 may be recharging
 
 		switch (choice)
 		{
@@ -696,7 +701,7 @@ void BubbleBattle::Battle_Sequence(character& c, enemy& e) {
 			{
 				break;
 			}
-			e.nextMove(c, e.RandomNum());	//its the enemies turn to attack
+			ud_enemyTurn(c, e);	//its the enemies turn to attack
 			MSdelay(2000);
 			clear();
 			break;
@@ -712,7 +717,7 @@ void BubbleBattle::Battle_Sequence(character& c, enemy& e) {
 				clear();
 				break;
 			}
-			e.nextMove(c, e.RandomNum());	//its the enemies turn to attack
+			ud_enemyTurn(c, e);	//its the enemies turn to attack
 			MSdelay(2000);
 			clear();
 			break;
@@ -728,7 +733,7 @@ void BubbleBattle::Battle_Sequence(character& c, enemy& e) {
 				clear();
 				break;
 			}
-			e.nextMove(c, e.RandomNum());	//its the enemies turn to attack
+			ud_enemyTurn(c, e);	//its the enemies turn to attack
 			MSdelay(2000);
 			clear();
 			break;
@@ -744,7 +749,7 @@ void BubbleBattle::Battle_Sequence(character& c, enemy& e) {
 				clear();
 				break;
 			}
-			e.nextMove(c, e.RandomNum());	//its the enemies turn to attack
+			ud_enemyTurn(c, e);	//its the enemies turn to attack
 			MSdelay(2000);
 			clear();
 			break;
@@ -776,7 +781,7 @@ void BubbleBattle::Battle_Sequence(character& c, enemy& e) {
 					c.resetRun();
 					break;
 				}
-				e.nextMove(c, e.RandomNum());	//its the enemies turn to attack
+				ud_enemyTurn(c, e);	//its the enemies turn to attack
 				MSdelay(2000);
 				break;
 			}
@@ -943,13 +948,14 @@ void musicBattle::Battle_Sequence(std::string filename, character& c, enemy& e) 
 		color(8); std::cout << "\n[1]: "; color(7); std::cout << c.get_aName1() << std::endl;
 		color(8); std::cout << "[2]: "; color(7); std::cout << c.get_aName2() << std::endl;
 		color(8); std::cout << "[3]: "; color(7); std::cout << c.get_aName3() << std::endl;
-		color(8); std::cout << "[4]: "; color(7); std::cout << c.get_aName4() << std::endl << std::endl;
+		color(8); std::cout << "[4]: "; color(7); std::cout << c.get_aName4() << ud_rechargeTag(c) << std::endl << std::endl;
 		color(8); std::cout << "[5]: "; color(7); std::cout << "Use Item" << std::endl;
 		color(8); std::cout << "[6]: "; color(7); std::cout << "Check stats" << std::endl;
 		color(8); std::cout << "[7]: "; color(7); std::cout << "Attack Descriptions" << std::endl;
 		color(8); std::cout << "[8]: "; color(7); std::cout << "Run (Be a coward)" << std::endl;
 		int choice;
 		std::cin >> choice;
+		choice = ud_checkRecharge(c, choice);	//Ultra Deluxe: move 4 may be recharging
 
 		switch (choice)
 		{
@@ -964,7 +970,7 @@ void musicBattle::Battle_Sequence(std::string filename, character& c, enemy& e) 
 			{
 				break;
 			}
-			e.nextMove(c, e.RandomNum());	//its the enemies turn to attack
+			ud_enemyTurn(c, e);	//its the enemies turn to attack
 			MSdelay(2000);
 			clear();
 			break;
@@ -980,7 +986,7 @@ void musicBattle::Battle_Sequence(std::string filename, character& c, enemy& e) 
 				clear();
 				break;
 			}
-			e.nextMove(c, e.RandomNum());	//its the enemies turn to attack
+			ud_enemyTurn(c, e);	//its the enemies turn to attack
 			MSdelay(2000);
 			clear();
 			break;
@@ -996,7 +1002,7 @@ void musicBattle::Battle_Sequence(std::string filename, character& c, enemy& e) 
 				clear();
 				break;
 			}
-			e.nextMove(c, e.RandomNum());	//its the enemies turn to attack
+			ud_enemyTurn(c, e);	//its the enemies turn to attack
 			MSdelay(2000);
 			clear();
 			break;
@@ -1012,7 +1018,7 @@ void musicBattle::Battle_Sequence(std::string filename, character& c, enemy& e) 
 				clear();
 				break;
 			}
-			e.nextMove(c, e.RandomNum());	//its the enemies turn to attack
+			ud_enemyTurn(c, e);	//its the enemies turn to attack
 			MSdelay(2000);
 			clear();
 			break;
@@ -1041,7 +1047,7 @@ void musicBattle::Battle_Sequence(std::string filename, character& c, enemy& e) 
 					clear();
 					break;
 				}
-				e.nextMove(c, e.RandomNum());	//its the enemies turn to attack
+				ud_enemyTurn(c, e);	//its the enemies turn to attack
 				MSdelay(2000);
 				break;
 			}
