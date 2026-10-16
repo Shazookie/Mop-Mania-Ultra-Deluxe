@@ -395,6 +395,13 @@ kbd {
         <option value="0">Instant</option>
       </select>
     </label>
+    <label class="speed" for="size"><span class="speed-text">Text size</span>
+      <select id="size">
+        <option value="11">Small</option>
+        <option value="15">Medium</option>
+        <option value="19">Large</option>
+      </select>
+    </label>
     <button id="sound" type="button" hidden aria-pressed="true">Sound on</button>
     <button id="restart" type="button">Restart</button>
   </div>
@@ -818,11 +825,19 @@ kbd {
   // ---- terminal ------------------------------------------------------
   // Colors are the Windows console ("Campbell") palette the game was written for.
   const narrow = window.matchMedia("(max-width: 560px)").matches;
+  // Text size: the viewer's saved choice, or small on narrow screens and medium elsewhere.
+  const sizeEl = document.getElementById("size");
+  function chosenSize() {
+    const saved = store.get("mm-size");
+    if (saved !== null && [...sizeEl.options].some((o) => o.value === saved)) return Number(saved);
+    return narrow ? 11 : 15;
+  }
+  sizeEl.value = String(chosenSize());
   const term = new Terminal({
     convertEol: true,
     cursorBlink: true,
     fontFamily: '"IBM Plex Mono", "Cascadia Mono", Consolas, "Courier New", monospace',
-    fontSize: narrow ? 11 : 15,
+    fontSize: chosenSize(),
     lineHeight: 1.15,
     scrollback: 5000,
     theme: {
@@ -941,6 +956,12 @@ kbd {
     if (!b || !rt) return;
     e.preventDefault();
     rt.sendKeys(b.dataset.key);
+  });
+
+  sizeEl.addEventListener("change", () => {
+    store.set("mm-size", sizeEl.value);
+    term.options.fontSize = Number(sizeEl.value);
+    refit();
   });
 
   speedEl.addEventListener("change", () => {

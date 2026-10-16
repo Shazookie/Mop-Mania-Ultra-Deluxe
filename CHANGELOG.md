@@ -51,3 +51,5 @@ Changes compared with the original Mop Mania.
   longer opens the shop by itself; the shop opens from `[s]`.
 - **Putrid's shop menu:** [1] Potions, [2] Specialty Items, [3] Play Game, **[4] Talk** (new; his lines
   are a placeholder `[PUTRID: talks with you]` until Seamus writes them), [5] Exit.
+- **Text size** picker on the web page (Small / Medium / Large), remembered by your browser. Until you
+  pick one it uses small on narrow screens and medium elsewhere.
