@@ -25,7 +25,7 @@ changed; all edits happen in this project.
   that are easy to save and load later.
 - **Putrid's snake game:** first game free (1 rat per 5 points); after that 1 rat per game (spent
   either way); a new high score pays 2 rats + 1 per full 5 points above the old high score.
-  Purple snake, dead rats as food, speeds up as it grows. Seamus writes the dialogue.
+  Purple snake, dead rats as food. Speed-up as it grows: not decided. Seamus writes the dialogue.
 - **Rusty's shop** in the Rusty Bucket: design still being discussed.
 
 ## Working with Seamus
