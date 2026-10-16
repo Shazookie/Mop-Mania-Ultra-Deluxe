@@ -4175,7 +4175,7 @@ void playAnim(const ArtAnim& a) {
     for (int i = 0; i < a.count; i++) {
         clear();
         printMasked(a.frames[i].text, a.frames[i].mask, a.baseColor);
-        MSdelay(a.frames[i].holdMs);
+        frameSleep(a.frames[i].holdMs);  // Ultra Deluxe: not MSdelay, so web Text speed "Instant" doesn't skip it
     }
     color(7);
 }

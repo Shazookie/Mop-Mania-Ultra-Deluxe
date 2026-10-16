@@ -49,7 +49,9 @@ void cellarEvent::shop(character& c)
     {
         endMusic();
         playMusic("putrid.wav");
+        screenFit(80, 22);
         playPutridReturnVisit();	//Ultra Deluxe
+        screenFit(0, 0);
 
         // Ultra Deluxe: everyone gets in; you only get thrown out for trying to buy what you can't afford
         {
@@ -235,7 +237,9 @@ void cellarEvent::trigger(character& c)
         cout << "The room is dark, and the air thick as mud, with a wretched stench of rotting flesh"; ellipsis(); cout << endl;
         MSdelay(4000);
         playSFX("BAH.wav");
+        screenFit(80, 22);	//Ultra Deluxe: 80 columns wide (phones shrink the text)
         playPutridFirstMeeting();	//Ultra Deluxe: the rat, the hiss, the crack in the wall, the eyes
+        screenFit(0, 0);
         c.acq_deadRat();
         clear();
         ellipsis();

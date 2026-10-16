@@ -1,6 +1,7 @@
 #include "battle.h"
 #include "UltraDeluxeMoves.h"
 #include "mopmania_art.h"
+#include "UltraDeluxeArt.h"
 #include "character.h"
 #include "enemy.h"
 #include <string>
@@ -97,7 +98,7 @@ void battle::Battle_Sequence(character& c, enemy& e)
 	{
 		clear();
 		BattleStats(c, e);	//begins by display the stats
-		showCombatArt(c.get_name());	//Ultra Deluxe: character art by the menu
+		ud_showCombatArt(c.get_name());	//Ultra Deluxe: character art beside the menu
 		whatText();
 		color(8); std::cout << "\n[1]: "; color(7); std::cout << c.get_aName1() << std::endl;
 		color(8); std::cout << "[2]: "; color(7); std::cout << c.get_aName2() << std::endl;
@@ -114,7 +115,7 @@ void battle::Battle_Sequence(character& c, enemy& e)
 		switch (choice)
 		{
 		case 1:
-			playAttackAnim(c.get_name());	//Ultra Deluxe: attack animation, then the usual screen
+			ud_playAttackAnim(c.get_name());	//Ultra Deluxe: attack animation, then the usual screen
 			clear();
 			BattleStats(c, e);
 			c.Attack1(e);	//character attacks
@@ -130,7 +131,7 @@ void battle::Battle_Sequence(character& c, enemy& e)
 			clear();
 			break;
 		case 2:
-			playAttackAnim(c.get_name());	//Ultra Deluxe: attack animation, then the usual screen
+			ud_playAttackAnim(c.get_name());	//Ultra Deluxe: attack animation, then the usual screen
 			clear();
 			BattleStats(c, e);
 			c.Attack2(e);	//character attacks
@@ -147,7 +148,7 @@ void battle::Battle_Sequence(character& c, enemy& e)
 			clear();
 			break;
 		case 3:
-			playAttackAnim(c.get_name());	//Ultra Deluxe: attack animation, then the usual screen
+			ud_playAttackAnim(c.get_name());	//Ultra Deluxe: attack animation, then the usual screen
 			clear();
 			BattleStats(c, e);
 			c.Attack3(e);	//character attacks
@@ -164,7 +165,7 @@ void battle::Battle_Sequence(character& c, enemy& e)
 			clear();
 			break;
 		case 4:
-			playAttackAnim(c.get_name());	//Ultra Deluxe: attack animation, then the usual screen
+			ud_playAttackAnim(c.get_name());	//Ultra Deluxe: attack animation, then the usual screen
 			clear();
 			BattleStats(c, e);
 			c.Attack4(e);	//character attacks
@@ -347,7 +348,7 @@ void GoodFinalBattle::Battle_Sequence(character& c, enemy& e) {
 		BattleDialogue(c, e);
 		clear();
 		BattleStats(c, e, statCounter);	//begins by display the stats
-		showCombatArt(c.get_name());	//Ultra Deluxe: character art by the menu
+		ud_showCombatArt(c.get_name());	//Ultra Deluxe: character art beside the menu
 		whatText();
 		color(8); std::cout << "\n[1]: "; color(7); std::cout << c.get_aName1() << std::endl;
 		color(8); std::cout << "[2]: "; color(7); std::cout << c.get_aName2() << std::endl;
@@ -364,7 +365,7 @@ void GoodFinalBattle::Battle_Sequence(character& c, enemy& e) {
 		switch (choice)
 		{
 		case 1:
-			playAttackAnim(c.get_name());	//Ultra Deluxe: attack animation, then the usual screen
+			ud_playAttackAnim(c.get_name());	//Ultra Deluxe: attack animation, then the usual screen
 			clear();
 			BattleStats(c, e, statCounter);
 			c.Attack1(e);	//character attacks
@@ -381,7 +382,7 @@ void GoodFinalBattle::Battle_Sequence(character& c, enemy& e) {
 			clear();
 			break;
 		case 2:
-			playAttackAnim(c.get_name());	//Ultra Deluxe: attack animation, then the usual screen
+			ud_playAttackAnim(c.get_name());	//Ultra Deluxe: attack animation, then the usual screen
 			clear();
 			BattleStats(c, e, statCounter);
 			c.Attack2(e);	//character attacks
@@ -399,7 +400,7 @@ void GoodFinalBattle::Battle_Sequence(character& c, enemy& e) {
 			clear();
 			break;
 		case 3:
-			playAttackAnim(c.get_name());	//Ultra Deluxe: attack animation, then the usual screen
+			ud_playAttackAnim(c.get_name());	//Ultra Deluxe: attack animation, then the usual screen
 			clear();
 			BattleStats(c, e, statCounter);
 			c.Attack3(e);	//character attacks
@@ -417,7 +418,7 @@ void GoodFinalBattle::Battle_Sequence(character& c, enemy& e) {
 			clear();
 			break;
 		case 4:
-			playAttackAnim(c.get_name());	//Ultra Deluxe: attack animation, then the usual screen
+			ud_playAttackAnim(c.get_name());	//Ultra Deluxe: attack animation, then the usual screen
 			clear();
 			BattleStats(c, e, statCounter);
 			c.Attack4(e);	//character attacks
@@ -686,7 +687,7 @@ void BubbleBattle::Battle_Sequence(character& c, enemy& e) {
 		BattleDialogue(c, e);
 		clear();
 		BattleStats(c, e);
-		showCombatArt(c.get_name());	//Ultra Deluxe: character art by the menu
+		ud_showCombatArt(c.get_name());	//Ultra Deluxe: character art beside the menu
 		whatText();
 		color(8); std::cout << "\n[1]: "; color(7); std::cout << c.get_aName1() << std::endl;
 		color(8); std::cout << "[2]: "; color(7); std::cout << c.get_aName2() << std::endl;
@@ -703,7 +704,7 @@ void BubbleBattle::Battle_Sequence(character& c, enemy& e) {
 		switch (choice)
 		{
 		case 1:
-			playAttackAnim(c.get_name());	//Ultra Deluxe: attack animation, then the usual screen
+			ud_playAttackAnim(c.get_name());	//Ultra Deluxe: attack animation, then the usual screen
 			clear();
 			BattleStats(c, e);
 			c.Attack1(e);	//character attacks
@@ -719,7 +720,7 @@ void BubbleBattle::Battle_Sequence(character& c, enemy& e) {
 			clear();
 			break;
 		case 2:
-			playAttackAnim(c.get_name());	//Ultra Deluxe: attack animation, then the usual screen
+			ud_playAttackAnim(c.get_name());	//Ultra Deluxe: attack animation, then the usual screen
 			clear();
 			BattleStats(c, e);
 			c.Attack2(e);	//character attacks
@@ -736,7 +737,7 @@ void BubbleBattle::Battle_Sequence(character& c, enemy& e) {
 			clear();
 			break;
 		case 3:
-			playAttackAnim(c.get_name());	//Ultra Deluxe: attack animation, then the usual screen
+			ud_playAttackAnim(c.get_name());	//Ultra Deluxe: attack animation, then the usual screen
 			clear();
 			BattleStats(c, e);
 			c.Attack3(e);	//character attacks
@@ -753,7 +754,7 @@ void BubbleBattle::Battle_Sequence(character& c, enemy& e) {
 			clear();
 			break;
 		case 4:
-			playAttackAnim(c.get_name());	//Ultra Deluxe: attack animation, then the usual screen
+			ud_playAttackAnim(c.get_name());	//Ultra Deluxe: attack animation, then the usual screen
 			clear();
 			BattleStats(c, e);
 			c.Attack4(e);	//character attacks
@@ -960,7 +961,7 @@ void musicBattle::Battle_Sequence(std::string filename, character& c, enemy& e) 
 	{
 		clear();
 		BattleStats(c, e);	//begins by display the stats
-		showCombatArt(c.get_name());	//Ultra Deluxe: character art by the menu
+		ud_showCombatArt(c.get_name());	//Ultra Deluxe: character art beside the menu
 		whatText();
 		color(8); std::cout << "\n[1]: "; color(7); std::cout << c.get_aName1() << std::endl;
 		color(8); std::cout << "[2]: "; color(7); std::cout << c.get_aName2() << std::endl;
@@ -977,7 +978,7 @@ void musicBattle::Battle_Sequence(std::string filename, character& c, enemy& e) 
 		switch (choice)
 		{
 		case 1:
-			playAttackAnim(c.get_name());	//Ultra Deluxe: attack animation, then the usual screen
+			ud_playAttackAnim(c.get_name());	//Ultra Deluxe: attack animation, then the usual screen
 			clear();
 			BattleStats(c, e);
 			c.Attack1(e);	//character attacks
@@ -993,7 +994,7 @@ void musicBattle::Battle_Sequence(std::string filename, character& c, enemy& e) 
 			clear();
 			break;
 		case 2:
-			playAttackAnim(c.get_name());	//Ultra Deluxe: attack animation, then the usual screen
+			ud_playAttackAnim(c.get_name());	//Ultra Deluxe: attack animation, then the usual screen
 			clear();
 			BattleStats(c, e);
 			c.Attack2(e);	//character attacks
@@ -1010,7 +1011,7 @@ void musicBattle::Battle_Sequence(std::string filename, character& c, enemy& e) 
 			clear();
 			break;
 		case 3:
-			playAttackAnim(c.get_name());	//Ultra Deluxe: attack animation, then the usual screen
+			ud_playAttackAnim(c.get_name());	//Ultra Deluxe: attack animation, then the usual screen
 			clear();
 			BattleStats(c, e);
 			c.Attack3(e);	//character attacks
@@ -1027,7 +1028,7 @@ void musicBattle::Battle_Sequence(std::string filename, character& c, enemy& e) 
 			clear();
 			break;
 		case 4:
-			playAttackAnim(c.get_name());	//Ultra Deluxe: attack animation, then the usual screen
+			ud_playAttackAnim(c.get_name());	//Ultra Deluxe: attack animation, then the usual screen
 			clear();
 			BattleStats(c, e);
 			c.Attack4(e);	//character attacks

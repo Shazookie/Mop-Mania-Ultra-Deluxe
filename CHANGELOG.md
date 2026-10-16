@@ -94,3 +94,14 @@ Changes compared with the original Mop Mania.
   through the slitted eyes (the BAH sound and the dead rat are kept), and `playPutridReturnVisit()`
   plays each time you open his shop.
 - The title and credits get at least 80 x 30 in both builds (`screenFit`).
+
+## Edition 9 — art fixes
+- **Animations play on every Text speed**, including Instant: `playAnim()` in `mopmania_art.cpp` now
+  waits with `frameSleep` instead of `MSdelay` (the one local edit to that file; re-apply it after
+  regenerating).
+- **Title:** Enter skips the intro at any point again, and the last 4 frames loop ("PRESS ENTER TO
+  MOP" blinks) until Enter.
+- **Battle menu:** your character's art is back beside the menu (above it only on narrow screens), so
+  the battle screen fits in short windows again.
+- **Phones:** the attack animations and Putrid's two scenes shrink the text to fit instead of wrapping.
+- These live in `game/UltraDeluxeArt.cpp` and only use the art from `mopmania_art`.

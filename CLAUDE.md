@@ -26,10 +26,13 @@ changed; all edits happen in this project.
 - **Putrid's snake game** (`game/PutridSnake.cpp`) is built. Putrid's 7 lines are placeholders
   `[PUTRID: ...]` until Seamus writes them. High score lives on the character (`ud_snakeHighScore`).
 - **Rusty's shop** in the Rusty Bucket: design still being discussed.
-- **Art and animation** come from Seamus's generated `game/mopmania_art.h/.cpp` (do not edit or
-  hand-copy art; he regenerates them). Hooks: playTitleIntro (launch), showSelectArt (select),
-  showCombatArt + playAttackAnim (battle.cpp), playEndingCredits (EndCredits), playPutridFirstMeeting /
-  playPutridReturnVisit (cellar). Title and credits are wrapped in screenFit(80, 30).
+- **Art and animation** come from Seamus's generated `game/mopmania_art.h/.cpp` (don't hand-copy art;
+  he regenerates them). ONE local edit to re-apply after each regeneration: in `playAnim()`,
+  `MSdelay(...)` -> `frameSleep(...)` (web Text speed "Instant" otherwise skips animations).
+  `game/UltraDeluxeArt.cpp` adds: skippable/looping title (ud_playTitle), art beside the battle menu
+  (ud_showCombatArt), attack animation sized for phones (ud_playAttackAnim). Other hooks call
+  mopmania_art directly: showSelectArt, playEndingCredits, playPutridFirstMeeting/ReturnVisit.
+  Title, credits and Putrid scenes are wrapped in screenFit.
 
 ## Working with Seamus
 - Ask before writing or changing any dialogue; show him the exact lines.
