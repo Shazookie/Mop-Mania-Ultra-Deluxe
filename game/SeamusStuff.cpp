@@ -12,6 +12,32 @@ c.Rat_Sale(4);
 */
 
 cellarEvent::cellarEvent() {};
+
+// Ultra Deluxe: read a menu number; letters count as a wrong option instead of looping forever.
+static int putridReadChoice()
+{
+    std::string text;
+    cin >> text;
+    if (!cin) { cin.clear(); return -1; }
+    for (char ch : text) {
+        if (ch < '0' || ch > '9') { return -1; }
+    }
+    return text.size() < 6 ? std::stoi(text) : -1;
+}
+
+// Ultra Deluxe: Putrid Python throws you out if you try to buy something you can't afford.
+static bool putridCanAfford(character& c, int cost)
+{
+    if (c.get_deadRat() >= cost) {
+        return true;
+    }
+    color(5);
+    playSFX("vine-boom.wav");
+    cout << "get outta here ya broke boy!!!" << endl;
+    MSdelay(5000);
+    color(7);
+    return false;
+}
 void cellarEvent::trigger(character& c)
 {
     bool killy = false;
@@ -21,13 +47,8 @@ void cellarEvent::trigger(character& c)
         endMusic();
         playMusic("putrid.wav");
 
-        if (c.get_deadRat() < 4) {
-            playSFX("vine-boom.wav");
-            cout << "get outta here ya broke boy!!!";   //will fix this and the many other errors Iv've enevitibly made
-            MSdelay(5000);
-            return;
-        }
-        else {
+        // Ultra Deluxe: everyone gets in; you only get thrown out for trying to buy what you can't afford
+        {
             while (killswitch == false) {
                 color(5);
                 clear();
@@ -41,13 +62,7 @@ void cellarEvent::trigger(character& c)
                 color(5); cout << "<~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~{" << std::endl;
 
             int choice;
-            cin >> choice;
-            if (choice == 3) {
-                color(5);
-                cout << "I'll s"; MSdelay(200); cout << "s"; MSdelay(200); cout << "s"; MSdelay(200); cout << "s"; MSdelay(200); cout << "ee you again s"; MSdelay(200); cout << "s"; MSdelay(200); cout << "s"; MSdelay(200); cout << "s"; MSdelay(200); cout << "oon";
-                endMusic();
-                break;
-            }
+            choice = putridReadChoice();
 
                 switch (choice) {
                 case 1:
@@ -64,10 +79,11 @@ void cellarEvent::trigger(character& c)
                         color(5); cout << "<~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~{" << std::endl;
 
                         int choiceA;
-                        cin >> choiceA;
+                        choiceA = putridReadChoice();
 
                         switch (choiceA) {
                         case 1:
+                            if (!putridCanAfford(c, 4)) { return; }
                             color(5);
                             cout << "Pleasure doing busines"; MSdelay(200); cout << "s"; MSdelay(200); cout << "s"; MSdelay(200); cout << "s"; MSdelay(200); cout << "\n";
                             cout << "Here's"; MSdelay(200); cout << "s"; MSdelay(200); cout << "s"; MSdelay(100); cout << "s"; MSdelay(100); cout << " your s"; MSdelay(200); cout << "s"; MSdelay(100); cout << "s"; MSdelay(100); cout << "s"; MSdelay(200); cout << "ponge armor\n";
@@ -76,6 +92,7 @@ void cellarEvent::trigger(character& c)
                             MSdelay(2000);
                             continue;
                         case 2:
+                            if (!putridCanAfford(c, 4)) { return; }
                             color(5);
                             cout << "Pleasure doing busines"; MSdelay(200); cout << "s"; MSdelay(200); cout << "s"; MSdelay(200); cout << "s"; MSdelay(200); cout << "\n";
                             cout << "Here's"; MSdelay(200); cout << "s"; MSdelay(200); cout << "s"; MSdelay(100); cout << "s"; MSdelay(100); cout << " your Bleach lining potion\n";
@@ -84,11 +101,13 @@ void cellarEvent::trigger(character& c)
                             MSdelay(2000);
                             continue;
                         case 3:
+                            if (!putridCanAfford(c, 4)) { return; }
                             color(5);
                             cout << "Pleasure doing busines"; MSdelay(200); cout << "s"; MSdelay(200); cout << "s"; MSdelay(200); cout << "s"; MSdelay(200); cout << "\n";
                             cout << "Here's"; MSdelay(200); cout << "s"; MSdelay(200); cout << "s"; MSdelay(100); cout << "s"; MSdelay(100); cout << " your Wax"; MSdelay(200); cout << "s"; MSdelay(200); cout << "s"; MSdelay(100); cout << "s"; MSdelay(100); cout << " coat\n";
                             if (c.get_deadRat() >= 4) { c.acq_defUp(); }
                             c.Rat_Sale(4);
+                            MSdelay(2000);
                             continue;
                         case 4:
                             kill = true;
@@ -118,10 +137,11 @@ void cellarEvent::trigger(character& c)
                         color(5); cout << "<~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~{" << std::endl;
 
                         int choiceB;
-                        cin >> choiceB;
+                        choiceB = putridReadChoice();
 
                         switch (choiceB) {
                         case 1:
+                            if (!putridCanAfford(c, 8)) { return; }
                             color(5);
                             cout << "Pleasure doing busines"; MSdelay(200); cout << "s"; MSdelay(200); cout << "s"; MSdelay(200); cout << "s"; MSdelay(200); cout << "\n";
                             cout << "Here's"; MSdelay(200); cout << "s"; MSdelay(200); cout << "s"; MSdelay(100); cout << "s"; MSdelay(100); cout << " your S"; MSdelay(200); cout << "s"; MSdelay(200); cout << "s"; MSdelay(200); cout << "s"; MSdelay(200); cout << "lippery S"; MSdelay(200); cout << "s"; MSdelay(200); cout << "s"; MSdelay(200); cout << "s"; MSdelay(200); cout << "oap\n";
@@ -130,6 +150,7 @@ void cellarEvent::trigger(character& c)
                             MSdelay(2000);
                             continue;
                         case 2:
+                            if (!putridCanAfford(c, 4)) { return; }
                             color(5);
                             cout << "Pleasure doing busines"; MSdelay(200); cout << "s"; MSdelay(200); cout << "s"; MSdelay(200); cout << "s"; MSdelay(200); cout << "\n";
                             cout << "Here's"; MSdelay(200); cout << "s"; MSdelay(200); cout << "s"; MSdelay(100); cout << "s"; MSdelay(100); cout << " your Cleaning tips"; MSdelay(200); cout << "s"; MSdelay(200); cout << "s"; MSdelay(200); cout << "s"; MSdelay(200); cout << "\n";
@@ -138,6 +159,7 @@ void cellarEvent::trigger(character& c)
                             MSdelay(2000);
                             continue;
                         case 3:
+                            if (!putridCanAfford(c, 10)) { return; }
                             color(5);
                             cout << "Pleasure doing busines"; MSdelay(200); cout << "s"; MSdelay(200); cout << "s"; MSdelay(200); cout << "s"; MSdelay(200); cout << "\n";
                             cout << "Here's"; MSdelay(200); cout << "s"; MSdelay(200); cout << "s"; MSdelay(100); cout << "s"; MSdelay(100); cout << " your Whendex"; MSdelay(200); cout << "s"; MSdelay(200); cout << "s"; MSdelay(200); cout << "s"; MSdelay(200); cout << "\n";
@@ -146,6 +168,7 @@ void cellarEvent::trigger(character& c)
                             MSdelay(2000);
                             continue;
                         case 4:
+                            if (!putridCanAfford(c, 4)) { return; }
                             color(5);
                             cout << "Pleasure doing busines"; MSdelay(200); cout << "s"; MSdelay(200); cout << "s"; MSdelay(200); cout << "s"; MSdelay(200); cout << "\n";
                             cout << "Here's"; MSdelay(200); cout << "s"; MSdelay(200); cout << "s"; MSdelay(100); cout << "s"; MSdelay(100); cout << " your Mirror"; MSdelay(200); cout << "\n";
@@ -229,8 +252,13 @@ void cellarEvent::trigger(character& c)
         cout << "*sniff sniff*" << endl; color(5); MSdelay(1000); cout << "I can already smell "; MSdelay(500); cout << c.get_deadRat() << " dead rat(sssss) on you" << std::endl;
         MSdelay(2000);
         cout << "S"; MSdelay(200); cout << "s"; MSdelay(200); cout << "s"; MSdelay(200); cout << "s"; MSdelay(200); cout << "o what do ya say kiddo? " << endl; MSdelay(800); cout << "Do we got ourselves"; MSdelay(200); cout << "s"; MSdelay(200); cout << "s"; MSdelay(200); cout << "s"; MSdelay(200); cout << " a deal?" << std::endl;
-        MSdelay(5000);
-        DotdotTwo();
+        // Ultra Deluxe: flash the usual [y/n] choice, but don't actually let the player answer
+        lockInput(true);
+        MSdelay(2000);
+        cout << "type: [y/n]" << std::endl;
+        MSdelay(1000);
+        clear();
+        lockInput(false);
         cout << "That was rhetorical"; MSdelay(3000); cout << ", of cours"; cout << "s"; MSdelay(200); cout << "s"; MSdelay(200); cout << "s"; MSdelay(200); cout << "s"; MSdelay(500); cout << "e we have a deal." << endl; MSdelay(1700); cout << "Just come back when whenever you wanna start trading..." << std::endl;
         MSdelay(2000);
         cout << "Now GO START LOOKING FOR SOME RAT"; cout << "S"; MSdelay(200); cout << "S"; MSdelay(200); cout << "S"; MSdelay(200); cout << "S"; MSdelay(500); ellipsis();

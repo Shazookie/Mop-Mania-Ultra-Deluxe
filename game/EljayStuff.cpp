@@ -162,12 +162,8 @@ void RustyBucketEvent::trigger(character& c)
 				system("pause");
 				clear();
 			}
-			else if (choice == "5")
-			{
-				std::cout << "You have exited" << std::endl;
-				break;
-				return;
-			}
+			// Ultra Deluxe: [4] Exit goes back to the Rusty Bucket menu.
+			// (The old code checked for "5", which isn't on the menu, and would have left the whole Rusty Bucket.)
 			clear();
 			continue;
 		}

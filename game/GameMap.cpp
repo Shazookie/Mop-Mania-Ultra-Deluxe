@@ -249,10 +249,10 @@ int gameMap:: Pause_Menu(locationNode* i, character& c)
 	{
 		std::cout << "|--Pause Menu--|" << std::endl;
 		std::cout << "|--------------------------|" << std::endl;
-		std::cout << "|"; color(8); std::cout << "[1]: "; color(7); std::cout << "Go back to beginning |" << std::endl;
+		std::cout << "|"; color(8); std::cout << "[1]: "; color(7); std::cout << "Return Home          |" << std::endl;
 		std::cout << "|"; color(8); std::cout << "[2]: "; color(7); std::cout << "Check Inventory	   |" << std::endl;
 		std::cout << "|"; color(8); std::cout << "[3]: "; color(7); std::cout << "Exit game            |" << std::endl;
-		std::cout << "|"; color(8); std::cout << "[4]: "; color(7); std::cout << "Go back              |" << std::endl;
+		std::cout << "|"; color(8); std::cout << "[4]: "; color(7); std::cout << "Resume Game          |" << std::endl;
 		std::cout << "|--------------------------|" << std::endl;
 		std::cin >> choice;
 
@@ -467,7 +467,7 @@ void gameMap::play(locationNode* i, character& c, int ifPaused) {
 			color(8);
 			std::cout << "[b]: ";
 			color(7);
-			std::cout << i->getParent()->getTitle() << std::endl;
+			std::cout << "Return to " << i->getParent()->getTitle() << std::endl;
 		}
 		color(8);
 		std::cout << "[p]: ";
@@ -491,7 +491,7 @@ void gameMap::play(locationNode* i, character& c, int ifPaused) {
 				color(8);
 				std::cout << "[b]: ";
 				color(7);
-				std::cout << i->getParent()->getTitle() << std::endl;
+				std::cout << "Return to " << i->getParent()->getTitle() << std::endl;
 			}
 			color(8);
 			std::cout << "[p]: ";
@@ -515,7 +515,7 @@ void gameMap::play(locationNode* i, character& c, int ifPaused) {
 				color(8);
 				std::cout << "[b]: ";
 				color(7);
-				std::cout << i->getParent()->getTitle() << std::endl;
+				std::cout << "Return to " << i->getParent()->getTitle() << std::endl;
 			}
 			color(8);
 			std::cout << "[p]: ";
@@ -538,7 +538,7 @@ void gameMap::play(locationNode* i, character& c, int ifPaused) {
 				color(8);
 				std::cout << "[b]: ";
 				color(7);
-				std::cout << i->getParent()->getTitle() << std::endl;
+				std::cout << "Return to " << i->getParent()->getTitle() << std::endl;
 			}
 			color(8);
 			std::cout << "[p]: ";
@@ -558,7 +558,7 @@ void gameMap::play(locationNode* i, character& c, int ifPaused) {
 				color(8);
 				std::cout << "[b]: ";
 				color(7);
-				std::cout << i->getParent()->getTitle() << std::endl;
+				std::cout << "Return to " << i->getParent()->getTitle() << std::endl;
 			}
 			color(8);
 			std::cout << "[p]: ";
@@ -578,7 +578,7 @@ void gameMap::play(locationNode* i, character& c, int ifPaused) {
 				color(8);
 				std::cout << "[b]: ";
 				color(7);
-				std::cout << i->getParent()->getTitle() << std::endl;
+				std::cout << "Return to " << i->getParent()->getTitle() << std::endl;
 			}
 			color(8);
 			std::cout << "[p]: ";
@@ -598,7 +598,7 @@ void gameMap::play(locationNode* i, character& c, int ifPaused) {
 				color(8);
 				std::cout << "[b]: ";
 				color(7);
-				std::cout << i->getParent()->getTitle() << std::endl;
+				std::cout << "Return to " << i->getParent()->getTitle() << std::endl;
 			}
 			color(8);
 			std::cout << "[p]: ";
@@ -613,7 +613,7 @@ void gameMap::play(locationNode* i, character& c, int ifPaused) {
 				color(8);
 				std::cout << "[b]: ";
 				color(7);
-				std::cout << i->getParent()->getTitle() << std::endl;
+				std::cout << "Return to " << i->getParent()->getTitle() << std::endl;
 			}
 			color(8);
 			std::cout << "[p]: ";
@@ -627,16 +627,17 @@ void gameMap::play(locationNode* i, character& c, int ifPaused) {
 	std::string choose;
 	std::cin >> choose;
 
-	if (choose == "l") {	//left
+	// Ultra Deluxe: only move if that room exists (moving into a missing room crashed the game)
+	if (choose == "l" && i->getLeft() != NULL) {	//left
 		play(i->getLeft(), c, 0);
 	}
-	else if (choose == "m") {	//middle
+	else if (choose == "m" && i->getMid() != NULL) {	//middle
 		play(i->getMid(), c, 0);
 	}
-	else if (choose == "r") {	//right
+	else if (choose == "r" && i->getRight() != NULL) {	//right
 		play(i->getRight(), c, 0);
 	}
-	else if (choose == "b") {	//back
+	else if (choose == "b" && i != root && i->getParent() != NULL) {	//back
 		play(i->getParent(), c, 0);
 	}
 	else if (choose == "p") {	//pause menu
@@ -650,6 +651,8 @@ void gameMap::play(locationNode* i, character& c, int ifPaused) {
 		}
 	}
 	else {
-		play(i, c, 0);
+		// Ultra Deluxe: a wrong key just shows this room's menu again
+		// (it used to replay the room's event, e.g. reopening Putrid's shop or the Rusty Bucket intro)
+		play(i, c, 1);
 	}
 }

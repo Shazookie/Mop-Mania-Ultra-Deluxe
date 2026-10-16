@@ -23,4 +23,5 @@ void playSFX(std::string filename);	//plays audio file that does not loop
 void DotdotTwo();	//dot dot dot for text
 void ellipsis();
 void playSFX_once(std::string filename);
+void lockInput(bool locked);	//Ultra Deluxe: true = ignore the keyboard (and throw away anything typed) until unlocked
 #endif

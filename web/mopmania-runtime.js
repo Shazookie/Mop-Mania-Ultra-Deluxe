@@ -24,7 +24,8 @@
      * opts.speed     multiplier for sleeps (1 = original pacing)
      */
     constructor(opts) {
-      this.opts = Object.assign({ files: {}, speed: 1, write() {}, play() {}, stop() {}, onWait() {} }, opts);
+      this.opts = Object.assign({ files: {}, speed: 1, write() {}, play() {}, stop() {}, onWait() {}, lockInput() {} }, opts);
+      this.inputLocked = false;
       this.stdin = [];          // queued bytes the game has not read yet
       this.lineWaiter = null;
       this.keyWaiter = null;
@@ -42,6 +43,7 @@
 
     /** Give the game a typed line (without the newline). */
     sendLine(text) {
+      if (this.inputLocked) return;
       for (const b of this.encoder.encode(text + "\n")) this.stdin.push(b);
       if (this.lineWaiter) { const w = this.lineWaiter; this.lineWaiter = null; w(); }
     }
@@ -264,6 +266,11 @@
         },
         play(ptr, len, loop) { try { self.opts.play(str(ptr, len), !!loop); } catch (e) {} },
         stop() { try { self.opts.stop(); } catch (e) {} },
+        lock_input(locked) {
+          self.inputLocked = !!locked;
+          if (!locked) self.stdin.length = 0;   // throw away anything typed while locked
+          try { self.opts.lockInput(!!locked); } catch (e) {}
+        },
       };
     }
 

@@ -53,6 +53,7 @@ BOOL SetConsoleTextAttribute(HANDLE, WORD attr) { apply_attr(attr); return 1; }
 MM_IMPORT("wait_key") void mm_js_wait_key(void);
 MM_IMPORT("play") void mm_js_play(const char* name, int len, int loop);
 MM_IMPORT("stop") void mm_js_stop(void);
+MM_IMPORT("lock_input") void mm_js_lock_input(int locked);
 
 // Scratch space the page uses to pause and resume the game while it waits
 // for the player (Asyncify).
@@ -69,6 +70,8 @@ static void play_file(const std::string& name, bool loop) {
     mm_js_play(name.data(), (int)name.size(), loop ? 1 : 0);
 }
 static void stop_sound() { mm_js_stop(); }
+
+void lockInput(bool locked) { flush_out(); mm_js_lock_input(locked ? 1 : 0); }
 
 #else
 // Native build (macOS / Linux).
@@ -89,6 +92,25 @@ static void wait_key() {
     tcsetattr(STDIN_FILENO, TCSANOW, &raw);
     char c; (void)!read(STDIN_FILENO, &c, 1);
     tcsetattr(STDIN_FILENO, TCSANOW, &old);
+}
+
+// Ultra Deluxe: stop echoing keys while locked, and throw away whatever was typed.
+static termios g_locked_saved;
+static bool g_locked = false;
+void lockInput(bool locked) {
+    flush_out();
+    if (!isatty(STDIN_FILENO)) return;
+    if (locked && !g_locked) {
+        tcgetattr(STDIN_FILENO, &g_locked_saved);
+        termios t = g_locked_saved;
+        t.c_lflag &= ~(ECHO);
+        tcsetattr(STDIN_FILENO, TCSANOW, &t);
+        g_locked = true;
+    } else if (!locked && g_locked) {
+        tcflush(STDIN_FILENO, TCIFLUSH);
+        tcsetattr(STDIN_FILENO, TCSANOW, &g_locked_saved);
+        g_locked = false;
+    }
 }
 
 // Sounds play from a "sounds" folder next to where the game is run, using
