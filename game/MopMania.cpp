@@ -5,7 +5,7 @@
 #include "battle.h"
 #include "event.h"
 #include "GameMap.h"
-#include "Animations.h"
+#include "mopmania_art.h"
 
 #pragma comment(lib, "winmm.lib") //for music and sound effects!
 
@@ -71,7 +71,9 @@ int main()
 	map.birth_leftChild(map.getIndex(), "Cellar", "This is Putrid Python's hole in the wall shop", "Haha... get it... cuz its literally a hole in the wall?", cellar);
 	map.setCellar(map.getIndex()->getLeft());	//Ultra Deluxe
 
-	ud_playTitle();	//Ultra Deluxe: animated title (Enter skips / continues)
+	screenFit(80, 30);	//Ultra Deluxe: title is 80 x 30
+	playTitleIntro();	//Ultra Deluxe: ends on the title screen and waits for Enter
+	screenFit(0, 0);
 
 	/*Broomba broomba("Broomba", 100, 100, 150); //beefy but less health
 	GoodFinalBattle test;

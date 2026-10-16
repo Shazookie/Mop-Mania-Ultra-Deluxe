@@ -9,8 +9,7 @@
 #include <Windows.h>
 #include <stdlib.h>
 #include "utility.h"
-#include "CharacterArt.h"	//Ultra Deluxe
-#include "Animations.h"	//Ultra Deluxe
+#include "mopmania_art.h"	//Ultra Deluxe
 #include "npc.h"
 #include <fstream>
 
@@ -74,9 +73,8 @@ int Start_Menu()
 		Sdelay(3);
 		int x;
 		color(7);
-		//Ultra Deluxe: character art (small if the screen is too narrow)
 		std::cout << "\n";
-		ud_printArtFit(ART_BROOMBA_LARGE_FRONT, ART_BROOMBA_SMALL_FRONT);
+		showSelectArt("Broomba");	//Ultra Deluxe: large front art
 		color(8); std::cout << "[1]: "; color(6); std::cout << "Broomba, the Explosive Custodian" << std::endl;
 		Sdelay(2);
 		std::cout << "\tA high-energy soldier with a passion for cleaning up messes in a blast." << std::endl;
@@ -86,9 +84,8 @@ int Start_Menu()
 		std::cout << "\tBroomba roams MopMania, leaving sparkling trails of cleanliness and a touch of controlled chaos" << std::endl;
 		Sdelay(3);
 
-		//Ultra Deluxe: character art (small if the screen is too narrow)
 		std::cout << "\n";
-		ud_printArtFit(ART_JETWET_LARGE_FRONT, ART_JETWET_SMALL_FRONT);
+		showSelectArt("JetWet");	//Ultra Deluxe: large front art
 		color(8); std::cout << "[2]: "; color(6); std::cout << "Swifter JetWet, the Splashy Sentinel" << std::endl;
 		Sdelay(2);
 		std::cout << "\tSwifter JetWet takes cleanliness to new depths! JetWet gained its aquatic powers by the ancient water sage, " << std::endl;
@@ -99,9 +96,8 @@ int Start_Menu()
 		std::cout << "\tgrime that threaten the land." << std::endl;
 		Sdelay(3);
 
-		//Ultra Deluxe: character art (small if the screen is too narrow)
 		std::cout << "\n";
-		ud_printArtFit(ART_BYSON_LARGE_FRONT, ART_BYSON_SMALL_FRONT);
+		showSelectArt("BysonV8");	//Ultra Deluxe: large front art
 		color(8); std::cout << "[3]: "; color(6); std::cout << "Byson V8, the cyclonic custodian" << std::endl;
 		Sdelay(2);
 		std::cout << "\tCrafted, in the legendary Byson Forge, the BysonV8 harnessed the power of air origins, becoming a vacuum marvel." << std::endl;
@@ -182,7 +178,11 @@ void EndCredits() {
 	//Ultra Deluxe: the animated Ending + credits sequence replaces the old credits screen
 	endMusic();
 	playMusic("creativity.wav");
-	ud_playCredits();
+	screenFit(80, 30);	//credits are 80 x 30
+	playEndingCredits();
+	screenFit(0, 0);
+	color(7);
+	system("pause");
 }
 
 #endif

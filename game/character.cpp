@@ -2,7 +2,6 @@
 #include "enemy.h"
 #include "utility.h"
 #include "UltraDeluxeMoves.h"
-#include "CharacterArt.h"
 #include <random>
 
 //BASE CHARACTER DEFINITIONS

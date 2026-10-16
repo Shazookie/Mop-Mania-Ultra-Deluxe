@@ -4,6 +4,7 @@
 #include "battle.h"
 #include "npc.h"
 #include "PutridSnake.h"
+#include "mopmania_art.h"
 
 using namespace std;
 
@@ -48,6 +49,7 @@ void cellarEvent::shop(character& c)
     {
         endMusic();
         playMusic("putrid.wav");
+        playPutridReturnVisit();	//Ultra Deluxe
 
         // Ultra Deluxe: everyone gets in; you only get thrown out for trying to buy what you can't afford
         {
@@ -232,25 +234,9 @@ void cellarEvent::trigger(character& c)
         MSdelay(3000);
         cout << "The room is dark, and the air thick as mud, with a wretched stench of rotting flesh"; ellipsis(); cout << endl;
         MSdelay(4000);
-        cout << "What is this?? You see a rat on the ground!!" << std::endl;
         playSFX("BAH.wav");
-        MSdelay(4500);
-        std::cout << "Oh its dead... you decided to pick it up..." << std::endl;
-        MSdelay(2400);
+        playPutridFirstMeeting();	//Ultra Deluxe: the rat, the hiss, the crack in the wall, the eyes
         c.acq_deadRat();
-        Sdelay(4);
-        clear();
-        color(5);
-        cout << "hss"; cout << "s"; MSdelay(200); cout << "s"; MSdelay(200); cout << "s" << endl; MSdelay(200);
-        Sdelay(3);
-        color(7);
-        clear();
-        cout << "WHAT WAS THAT???" << endl;
-        Sdelay(2);
-        std::cout << "You walk towards the back of the room and can faintly see a lengthy crack in the wall..." << std::endl;
-        MSdelay(5000);
-        std::cout << "Suddenly you see a pair slitted eyes blink open, their yellow glow slightly lighting up the room " << std::endl;
-        MSdelay(7000);
         clear();
         ellipsis();
         std::cout << "*a voice then calls out to you in a raspy tone*" << std::endl;
