@@ -1,0 +1,342 @@
+<title>Mop Mania</title>
+<meta name="claude:viewport-fit-sides" content="cover">
+<meta name="description" content="Mop Mania: The Purging of Le' Hospitale. A text RPG by Joshua Fouch, Seamus Sommers, and Eljay Jimenez.">
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Big+Shoulders+Stencil+Display:wght@800&family=Archivo:wght@400;600&family=IBM+Plex+Mono:wght@400;600&display=swap">
+<style>
+/* xterm.js 5.3.0 stylesheet (inlined) */
+/*XTERM_CSS*/
+</style>
+<style>
+/* Layout: one-screen console cabinet. Supply-closet label bar on top,
+   the game's own Windows console in the middle, credits at the foot. */
+:root {
+  --bg: #0e1110;          /* closet-dark, faint green bias */
+  --screen: #0c0c0c;      /* Windows console black */
+  --panel: #151a18;
+  --rule: #29312d;
+  --fg: #d9e1dc;
+  --muted: #8d9993;
+  --bucket: #f2c230;      /* mop-bucket yellow: the one loud thing */
+  --ok: #16c60c;          /* console bright green: "your turn" */
+  --font-display: "Big Shoulders Stencil Display", "Impact", "Arial Narrow Bold", sans-serif;
+  --font-ui: "Archivo", "Helvetica Neue", Arial, sans-serif;
+  --font-term: "IBM Plex Mono", "Cascadia Mono", Consolas, "Courier New", monospace;
+  color-scheme: dark;
+}
+[hidden] { display: none !important; }
+html, body { height: 100%; }
+body {
+  margin: 0;
+  background: var(--bg);
+  color: var(--fg);
+  font: 14px/1.45 var(--font-ui);
+  display: flex;
+  flex-direction: column;
+  padding-left: max(16px, env(safe-area-inset-left, 0px));
+  padding-right: max(16px, env(safe-area-inset-right, 0px));
+  padding-block: 12px;
+  gap: 10px;
+  box-sizing: border-box;
+  overflow: hidden;
+}
+.bar {
+  display: flex;
+  flex-wrap: wrap;
+  align-items: center;
+  gap: 8px 16px;
+}
+.brand { display: flex; align-items: baseline; gap: 12px; flex-wrap: wrap; min-width: 0; margin-right: auto; }
+.brand h1 {
+  margin: 0;
+  font: 800 2.1rem/0.9 var(--font-display);
+  letter-spacing: 0.02em;
+  color: var(--bucket);
+  text-transform: uppercase;
+}
+.brand p { margin: 0; color: var(--muted); font-size: 0.9rem; }
+.controls { display: flex; align-items: center; gap: 8px; flex-wrap: wrap; }
+.status {
+  display: inline-flex; align-items: center; gap: 7px;
+  font-size: 0.8rem; letter-spacing: 0.04em; text-transform: uppercase; font-weight: 600;
+  color: var(--muted);
+  padding: 5px 10px; border: 1px solid var(--rule); border-radius: 999px;
+  white-space: nowrap;
+}
+.status::before { content: ""; width: 8px; height: 8px; border-radius: 50%; background: var(--muted); }
+.status[data-state="line"] { color: var(--ok); border-color: color-mix(in srgb, var(--ok) 45%, var(--rule)); }
+.status[data-state="line"]::before { background: var(--ok); }
+.status[data-state="key"] { color: var(--bucket); border-color: color-mix(in srgb, var(--bucket) 45%, var(--rule)); }
+.status[data-state="key"]::before { background: var(--bucket); animation: blink 1s steps(2) infinite; }
+.status[data-state="done"]::before { background: var(--rule); }
+@keyframes blink { 50% { opacity: 0.2; } }
+select, button {
+  font: 600 0.85rem var(--font-ui);
+  color: var(--fg);
+  background: var(--panel);
+  border: 1px solid var(--rule);
+  border-radius: 6px;
+  padding: 6px 10px;
+  cursor: pointer;
+}
+button:hover, select:hover { border-color: var(--muted); }
+:focus-visible { outline: 2px solid var(--bucket); outline-offset: 2px; }
+label.speed { display: inline-flex; align-items: center; gap: 6px; color: var(--muted); font-size: 0.85rem; }
+
+.cabinet {
+  flex: 1;
+  min-height: 0;
+  background: var(--screen);
+  border: 1px solid var(--rule);
+  border-radius: 8px;
+  padding: 10px 4px 10px 12px;
+  position: relative;
+}
+#term { height: 100%; }
+.loading {
+  position: absolute; inset: 0; display: grid; place-items: center;
+  color: var(--muted); font: 0.95rem var(--font-term);
+}
+.error { color: #e74856; padding: 0 12px; text-align: center; }
+
+.touch-input { display: none; gap: 8px; }
+.touch-input input {
+  flex: 1; min-width: 0;
+  font: 16px var(--font-term);
+  color: var(--fg); background: var(--panel);
+  border: 1px solid var(--rule); border-radius: 6px; padding: 8px 10px;
+}
+.touch-input .go { background: var(--bucket); color: #111; border-color: var(--bucket); }
+@media (pointer: coarse) { .touch-input { display: flex; } }
+
+.foot {
+  display: flex; flex-wrap: wrap; gap: 4px 18px; justify-content: space-between;
+  color: var(--muted); font-size: 0.8rem;
+}
+.foot strong { color: var(--fg); font-weight: 600; }
+kbd {
+  font: 600 0.75rem var(--font-term);
+  border: 1px solid var(--rule); border-bottom-width: 2px; border-radius: 4px;
+  padding: 0 5px; color: var(--fg);
+}
+@media (max-width: 560px) {
+  .brand h1 { font-size: 1.7rem; }
+  .brand p { display: none; }
+  .speed-text { position: absolute; width: 1px; height: 1px; overflow: hidden; clip-path: inset(50%); }
+  body { padding-block: 8px; gap: 8px; }
+}
+@media (prefers-reduced-motion: reduce) { .status[data-state="key"]::before { animation: none; } }
+</style>
+
+<header class="bar">
+  <div class="brand">
+    <h1>Mop Mania</h1>
+    <p>The Purging of Le' Hospitale</p>
+  </div>
+  <div class="controls">
+    <span class="status" id="status" data-state="busy" role="status" aria-live="polite">Starting</span>
+    <label class="speed" for="speed"><span class="speed-text">Text speed</span>
+      <select id="speed">
+        <option value="1">Original</option>
+        <option value="0.4">Fast</option>
+        <option value="0">Instant</option>
+      </select>
+    </label>
+    <button id="sound" type="button" hidden aria-pressed="true">Sound on</button>
+    <button id="restart" type="button">Restart</button>
+  </div>
+</header>
+
+<main class="cabinet" aria-label="Game console">
+  <div id="term"></div>
+  <div class="loading" id="loading">Loading Le' Hospitale…</div>
+</main>
+
+<form class="touch-input" id="touch" autocomplete="off">
+  <input id="touch-text" type="text" inputmode="text" autocapitalize="off" spellcheck="false" placeholder="Type your answer" aria-label="Your answer">
+  <button class="go" id="touch-send" type="submit">Enter</button>
+</form>
+
+<footer class="foot">
+  <span>Type a letter or number and press <kbd>Enter</kbd>. At <em>Press any key</em>, press any key (or tap Continue).</span>
+  <span>Created by <strong>Joshua Fouch</strong>, <strong>Seamus Sommers</strong>, and <strong>Eljay Jimenez</strong></span>
+</footer>
+
+<script src="https://cdn.jsdelivr.net/npm/xterm@5.3.0/lib/xterm.js"></script>
+<script src="https://cdn.jsdelivr.net/npm/xterm-addon-fit@0.8.0/lib/xterm-addon-fit.js"></script>
+<script>
+/*RUNTIME*/
+</script>
+<script>
+(function () {
+  "use strict";
+  const WASM_GZ_B64 = "/*WASM_GZ_B64*/";
+  const ENDCREDIT_B64 = "/*ENDCREDIT_B64*/";
+
+  const $ = (id) => document.getElementById(id);
+  const statusEl = $("status"), speedEl = $("speed"), soundBtn = $("sound");
+  const touchForm = $("touch"), touchText = $("touch-text"), touchSend = $("touch-send");
+
+  const store = {
+    get(k) { try { return localStorage.getItem(k); } catch (e) { return null; } },
+    set(k, v) { try { localStorage.setItem(k, v); } catch (e) {} },
+  };
+
+  function b64bytes(b64) {
+    const bin = atob(b64), out = new Uint8Array(bin.length);
+    for (let i = 0; i < bin.length; i++) out[i] = bin.charCodeAt(i);
+    return out;
+  }
+
+  async function loadWasm() {
+    const gz = b64bytes(WASM_GZ_B64);
+    const stream = new Blob([gz]).stream().pipeThrough(new DecompressionStream("gzip"));
+    const bytes = await new Response(stream).arrayBuffer();
+    return WebAssembly.compile(bytes);
+  }
+
+  // ---- terminal ------------------------------------------------------
+  // Colors are the Windows console ("Campbell") palette the game was written for.
+  const narrow = window.matchMedia("(max-width: 560px)").matches;
+  const term = new Terminal({
+    convertEol: true,
+    cursorBlink: true,
+    fontFamily: '"IBM Plex Mono", "Cascadia Mono", Consolas, "Courier New", monospace',
+    fontSize: narrow ? 11 : 15,
+    lineHeight: 1.15,
+    scrollback: 5000,
+    theme: {
+      background: "#0c0c0c", foreground: "#cccccc", cursor: "#f2c230", cursorAccent: "#0c0c0c",
+      selectionBackground: "#3a3a3a",
+      black: "#0c0c0c", red: "#c50f1f", green: "#13a10e", yellow: "#c19c00",
+      blue: "#0037da", magenta: "#881798", cyan: "#3a96dd", white: "#cccccc",
+      brightBlack: "#767676", brightRed: "#e74856", brightGreen: "#16c60c", brightYellow: "#f9f1a5",
+      brightBlue: "#3b78ff", brightMagenta: "#b4009e", brightCyan: "#61d6d6", brightWhite: "#f2f2f2",
+    },
+  });
+  const fit = new FitAddon.FitAddon();
+  term.loadAddon(fit);
+
+  // ---- sound ---------------------------------------------------------
+  // Plays sounds/<name>.wav if those files sit next to this page.
+  // The original .wav files were never committed, so this is often silent;
+  // the Sound button only appears once a file actually loads.
+  let audio = null, soundOn = store.get("mm-sound") !== "off";
+  function stopSound() { if (audio) { audio.pause(); audio.src = ""; audio = null; } }
+  function playSound(name, loop) {
+    stopSound();
+    const a = new Audio("sounds/" + encodeURIComponent(name));
+    a.loop = loop;
+    a.muted = !soundOn;
+    a.addEventListener("canplay", () => { soundBtn.hidden = false; }, { once: true });
+    a.addEventListener("error", () => {}, { once: true });
+    audio = a;
+    a.play().catch(() => {});
+  }
+  function renderSound() {
+    soundBtn.textContent = soundOn ? "Sound on" : "Sound off";
+    soundBtn.setAttribute("aria-pressed", String(soundOn));
+    if (audio) audio.muted = !soundOn;
+  }
+  soundBtn.addEventListener("click", () => { soundOn = !soundOn; store.set("mm-sound", soundOn ? "on" : "off"); renderSound(); });
+  renderSound();
+
+  // ---- status --------------------------------------------------------
+  const STATUS = { line: "Your answer", key: "Press any key", busy: "Story playing", done: "Game over" };
+  function setStatus(state) {
+    statusEl.dataset.state = state;
+    statusEl.textContent = STATUS[state];
+    touchSend.textContent = state === "key" ? "Continue" : "Enter";
+  }
+
+  // ---- game ----------------------------------------------------------
+  let rt = null, module = null, line = "";
+  const savedSpeed = store.get("mm-speed");
+  if (savedSpeed !== null && [...speedEl.options].some((o) => o.value === savedSpeed)) speedEl.value = savedSpeed;
+
+  async function start() {
+    if (rt) rt.abort();
+    stopSound();
+    term.reset();
+    line = "";
+    setStatus("busy");
+    const game = new MopManiaRuntime({
+      wasm: module,
+      files: { "endcredit.txt": b64bytes(ENDCREDIT_B64) },
+      speed: Number(speedEl.value),
+      write: (t) => term.write(t),
+      play: playSound,
+      stop: stopSound,
+      onWait: (kind) => setStatus(kind || "busy"),
+    });
+    rt = game;
+    try {
+      await game.run();
+      if (rt === game) {
+        setStatus("done");
+        term.write("\r\n\x1b[90m[The game has ended. Press Restart to play again.]\x1b[0m\r\n");
+      }
+    } catch (e) {
+      if (rt === game) {
+        setStatus("done");
+        term.write("\r\n\x1b[91m[The game stopped unexpectedly: " + (e && e.message ? e.message : e) + ". Press Restart to play again.]\x1b[0m\r\n");
+      }
+    }
+  }
+
+  // Typing in the console: the line is echoed and sent on Enter.
+  term.onData((data) => {
+    if (!rt || rt.finished) return;
+    if (rt.waitingFor === "key") { rt.pressKey(); return; }
+    if (data.charCodeAt(0) === 27) return; // arrow keys etc.
+    for (const ch of data) {
+      if (ch === "\r") { term.write("\r\n"); const l = line; line = ""; rt.sendLine(l); }
+      else if (ch === "\x7f" || ch === "\b") { if (line) { line = line.slice(0, -1); term.write("\b \b"); } }
+      else if (ch >= " ") { line += ch; term.write(ch); }
+    }
+  });
+
+  // Phones: answer through the input bar under the console.
+  touchForm.addEventListener("submit", (e) => {
+    e.preventDefault();
+    if (!rt || rt.finished) return;
+    if (rt.waitingFor === "key") { rt.pressKey(); touchText.value = ""; return; }
+    const v = line + touchText.value;
+    term.write(touchText.value + "\r\n");
+    line = "";
+    touchText.value = "";
+    rt.sendLine(v);
+    touchText.focus();
+  });
+
+  speedEl.addEventListener("change", () => {
+    store.set("mm-speed", speedEl.value);
+    if (rt) rt.setSpeed(Number(speedEl.value));
+  });
+  $("restart").addEventListener("click", () => { start(); term.focus(); });
+
+  const refit = () => { try { fit.fit(); } catch (e) {} };
+  window.addEventListener("resize", refit);
+  if (window.ResizeObserver) new ResizeObserver(refit).observe($("term"));
+
+  (async function boot() {
+    try {
+      if (document.fonts && document.fonts.load) {
+        await Promise.race([document.fonts.load('15px "IBM Plex Mono"'), new Promise((r) => setTimeout(r, 1500))]);
+      }
+      term.open($("term"));
+      refit();
+      module = await loadWasm();
+      $("loading").hidden = true;
+      if (!window.matchMedia("(pointer: coarse)").matches) term.focus();
+      start();
+    } catch (e) {
+      $("loading").innerHTML = '<p class="error">Mop Mania could not load in this browser (' +
+        String(e && e.message ? e.message : e).replace(/[<>&]/g, "") +
+        "). Try a current version of Chrome, Edge, Firefox or Safari.</p>";
+      setStatus("done");
+    }
+  })();
+})();
+</script>

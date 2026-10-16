@@ -1,0 +1,5 @@
+# IGNORE THOSE DAMN WAV FILES
+*.wav
+
+# build output
+build/

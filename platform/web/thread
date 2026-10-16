@@ -1,0 +1,20 @@
+// Web build only: the browser target has no threads, but the game only needs
+// std::this_thread::sleep_for for its text pacing. The page turns this sleep
+// into a real (non-freezing) pause.
+#pragma once
+#include <chrono>
+#include <ctime>
+
+namespace std {
+namespace this_thread {
+template <class Rep, class Period>
+inline void sleep_for(const chrono::duration<Rep, Period>& d) {
+    auto ns = chrono::duration_cast<chrono::nanoseconds>(d).count();
+    if (ns <= 0) return;
+    timespec ts;
+    ts.tv_sec = (time_t)(ns / 1000000000);
+    ts.tv_nsec = (long)(ns % 1000000000);
+    nanosleep(&ts, nullptr);
+}
+}  // namespace this_thread
+}  // namespace std
