@@ -24,7 +24,9 @@
      * opts.speed     multiplier for sleeps (1 = original pacing)
      */
     constructor(opts) {
-      this.opts = Object.assign({ files: {}, speed: 1, write() {}, play() {}, stop() {}, onWait() {}, lockInput() {} }, opts);
+      this.opts = Object.assign({ files: {}, speed: 1, write() {}, play() {}, stop() {}, onWait() {}, lockInput() {}, onRealtime() {} }, opts);
+      this.realtime = false;
+      this.keyBytes = [];
       this.inputLocked = false;
       this.stdin = [];          // queued bytes the game has not read yet
       this.lineWaiter = null;
@@ -52,6 +54,13 @@
     pressKey() {
       if (!this.keyWaiter) return false;
       const w = this.keyWaiter; this.keyWaiter = null; w(); return true;
+    }
+
+    /** Send raw key data during a real-time section (the snake game). */
+    sendKeys(data) {
+      if (!this.realtime) return false;
+      for (const b of this.encoder.encode(data)) this.keyBytes.push(b);
+      return true;
     }
 
     /** Cut the current pause in the text short (used for "skip"). */
@@ -266,6 +275,15 @@
         },
         play(ptr, len, loop) { try { self.opts.play(str(ptr, len), !!loop); } catch (e) {} },
         stop() { try { self.opts.stop(); } catch (e) {} },
+        rt_begin() { self.realtime = true; self.keyBytes.length = 0; try { self.opts.onRealtime(true); } catch (e) {} },
+        rt_end() {
+          self.realtime = false; self.keyBytes.length = 0; self.stdin.length = 0;
+          try { self.opts.onRealtime(false); } catch (e) {}
+        },
+        poll_byte() { return self.keyBytes.length ? self.keyBytes.shift() : -1; },
+        frame_wait(ms) {
+          return new Promise((resolve) => setTimeout(() => { if (!self.dead) resolve(); }, Math.max(0, ms)));
+        },
         lock_input(locked) {
           self.inputLocked = !!locked;
           if (!locked) self.stdin.length = 0;   // throw away anything typed while locked
@@ -299,6 +317,7 @@
       const wasi = this.wasi(), game = this.game();
       for (const k of ["fd_read", "poll_oneoff"]) wasi[k] = asyncWrap(wasi[k]);
       game.wait_key = asyncWrap(game.wait_key);
+      game.frame_wait = asyncWrap(game.frame_wait);
 
       const imports = { wasi_snapshot_preview1: wasi, mopmania: game };
       const src = this.opts.wasm;

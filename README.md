@@ -27,7 +27,9 @@ cd game && ../build/mopmania
 Run it from inside `game/` so it can find `endcredit.txt` (and `sounds/`, below).
 On a Mac, install the compiler first with `xcode-select --install`.
 
-On Windows, the original Visual Studio project still works as it always did.
+On Windows, play the browser version, or build in WSL (Ubuntu on Windows) with the steps above.
+Ultra Deluxe's new features (like Putrid's snake game) need the files in `platform/`, so the old
+Visual Studio setup won't build this edition.
 
 ## Sound
 

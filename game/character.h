@@ -21,6 +21,10 @@ public:
 	// Ultra Deluxe: turns until move 4 can be used again (see UltraDeluxeMoves.cpp)
 	int ud_recharge = 0;
 
+	// Ultra Deluxe: Putrid's snake game (see PutridSnake.cpp)
+	bool ud_snakeFreeGameDone = false;
+	int ud_snakeHighScore = 0;
+
 	//I really think we don't need setters... why would we need to set the hp of your character in game?
 	std::string get_name();
 	void set_name(std::string name);

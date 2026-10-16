@@ -14,6 +14,6 @@ mkdir -p build
   game/*.cpp platform/platform.cpp -o build/mopmania.raw.wasm -Wl,-z,stack-size=1048576
 # Asyncify lets the page pause the game while it waits for typing or sleeps.
 "$BINARYEN/bin/wasm-opt" build/mopmania.raw.wasm --asyncify \
-  --pass-arg=asyncify-imports@wasi_snapshot_preview1.fd_read,wasi_snapshot_preview1.poll_oneoff,mopmania.wait_key \
+  --pass-arg=asyncify-imports@wasi_snapshot_preview1.fd_read,wasi_snapshot_preview1.poll_oneoff,mopmania.wait_key,mopmania.frame_wait \
   -O2 --strip-debug -o web/mopmania.wasm
 node web/build-page.js

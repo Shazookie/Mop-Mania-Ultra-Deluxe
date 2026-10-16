@@ -7,6 +7,8 @@
 #include <cstring>
 #include <iostream>
 #include <string>
+#include <thread>
+#include <chrono>
 
 #undef system  // we need the real one name-free below
 
@@ -54,6 +56,10 @@ MM_IMPORT("wait_key") void mm_js_wait_key(void);
 MM_IMPORT("play") void mm_js_play(const char* name, int len, int loop);
 MM_IMPORT("stop") void mm_js_stop(void);
 MM_IMPORT("lock_input") void mm_js_lock_input(int locked);
+MM_IMPORT("rt_begin") void mm_js_rt_begin(void);
+MM_IMPORT("rt_end") void mm_js_rt_end(void);
+MM_IMPORT("poll_byte") int mm_js_poll_byte(void);
+MM_IMPORT("frame_wait") void mm_js_frame_wait(int ms);
 
 // Scratch space the page uses to pause and resume the game while it waits
 // for the player (Asyncify).
@@ -72,6 +78,11 @@ static void play_file(const std::string& name, bool loop) {
 static void stop_sound() { mm_js_stop(); }
 
 void lockInput(bool locked) { flush_out(); mm_js_lock_input(locked ? 1 : 0); }
+
+void realtimeBegin() { std::cout << "\033[?25l"; flush_out(); mm_js_rt_begin(); }
+void realtimeEnd() { std::cout << "\033[?25h"; flush_out(); mm_js_rt_end(); }
+int pollByte() { return mm_js_poll_byte(); }
+void frameSleep(int ms) { flush_out(); mm_js_frame_wait(ms); }
 
 #else
 // Native build (macOS / Linux).
@@ -111,6 +122,39 @@ void lockInput(bool locked) {
         tcsetattr(STDIN_FILENO, TCSANOW, &g_locked_saved);
         g_locked = false;
     }
+}
+
+// Ultra Deluxe: real-time keys for the snake game.
+static termios g_rt_saved;
+static bool g_rt_on = false;
+void realtimeBegin() {
+    std::cout << "\033[?25l";  // hide the cursor
+    flush_out();
+    if (!isatty(STDIN_FILENO) || g_rt_on) return;
+    tcgetattr(STDIN_FILENO, &g_rt_saved);
+    termios t = g_rt_saved;
+    t.c_lflag &= ~(ICANON | ECHO);
+    t.c_cc[VMIN] = 0;
+    t.c_cc[VTIME] = 0;
+    tcsetattr(STDIN_FILENO, TCSANOW, &t);
+    g_rt_on = true;
+}
+void realtimeEnd() {
+    std::cout << "\033[?25h";  // show the cursor again
+    flush_out();
+    if (!g_rt_on) return;
+    tcflush(STDIN_FILENO, TCIFLUSH);
+    tcsetattr(STDIN_FILENO, TCSANOW, &g_rt_saved);
+    g_rt_on = false;
+}
+int pollByte() {
+    if (!g_rt_on) return -1;
+    unsigned char ch;
+    return read(STDIN_FILENO, &ch, 1) == 1 ? ch : -1;
+}
+void frameSleep(int ms) {
+    flush_out();
+    std::this_thread::sleep_for(std::chrono::milliseconds(ms));
 }
 
 // Sounds play from a "sounds" folder next to where the game is run, using

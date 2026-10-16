@@ -34,3 +34,12 @@ Changes compared with the original Mop Mania.
   Janitorius, then Mom, then something Rusty once told you (they take turns).
 - **Rusty Bucket:** the full walk-in description only plays on your first visit. Later visits show
   two quick lines, then the options.
+
+## Edition 4 — Putrid's snake game
+- **[3] Play Game in Putrid Python's shop is a real snake game.** Purple snake (`SS` head), dead rats
+  (`r~`) to eat, and it speeds up with every rat. Arrow keys or WASD; Q quits. On phones, on-screen
+  arrows appear during the game.
+- **Rewards:** the first game is free and pays 1 rat per 5 points. After that every game costs 1 rat
+  (spent either way). Beating your high score pays 2 rats + 1 for every full 5 points above it.
+- Putrid's 7 lines are placeholders like `[PUTRID: taunts you for losing your rat]` until Seamus writes them.
+- The high score is kept on the character so it can be saved once saving exists.

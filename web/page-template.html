@@ -138,6 +138,20 @@ kbd {
   .speed-text { position: absolute; width: 1px; height: 1px; overflow: hidden; clip-path: inset(50%); }
   body { padding-block: 8px; gap: 8px; }
 }
+.pad {
+  display: grid;
+  grid-template-columns: repeat(3, 56px) auto;
+  grid-template-areas: ". up . quit" "left down right quit";
+  gap: 6px;
+  justify-content: center;
+}
+.pad[hidden] { display: none; }
+.pad button { height: 48px; font-size: 1.1rem; touch-action: manipulation; }
+.pad button[aria-label="Up"] { grid-area: up; }
+.pad button[aria-label="Left"] { grid-area: left; }
+.pad button[aria-label="Down"] { grid-area: down; }
+.pad button[aria-label="Right"] { grid-area: right; }
+.pad .quit { grid-area: quit; margin-left: 10px; height: auto; }
 @media (prefers-reduced-motion: reduce) { .status[data-state="key"]::before { animation: none; } }
 </style>
 
@@ -169,6 +183,14 @@ kbd {
   <input id="touch-text" type="text" inputmode="text" autocapitalize="off" spellcheck="false" placeholder="Type your answer" aria-label="Your answer">
   <button class="go" id="touch-send" type="submit">Enter</button>
 </form>
+
+<div class="pad" id="pad" hidden aria-label="Snake controls">
+  <button type="button" data-key="&#27;[A" aria-label="Up">&#9650;</button>
+  <button type="button" data-key="&#27;[D" aria-label="Left">&#9664;</button>
+  <button type="button" data-key="&#27;[B" aria-label="Down">&#9660;</button>
+  <button type="button" data-key="&#27;[C" aria-label="Right">&#9654;</button>
+  <button type="button" data-key="q" class="quit">Quit</button>
+</div>
 
 <footer class="foot">
   <span>Type a letter or number and press <kbd>Enter</kbd>. At <em>Press any key</em>, press any key (or tap Continue).</span>
@@ -282,6 +304,7 @@ kbd {
       stop: stopSound,
       onWait: (kind) => setStatus(kind || "busy"),
       lockInput: (locked) => { if (locked) { line = ""; touchText.value = ""; } },
+      onRealtime: (on) => { pad.hidden = !on; touchForm.hidden = on; line = ""; if (on && !coarse) term.focus(); },
     });
     rt = game;
     try {
@@ -300,7 +323,9 @@ kbd {
 
   // Typing in the console: the line is echoed and sent on Enter.
   term.onData((data) => {
-    if (!rt || rt.finished || rt.inputLocked) return;
+    if (!rt || rt.finished) return;
+    if (rt.realtime) { rt.sendKeys(data); return; }   // snake game: every key goes straight in
+    if (rt.inputLocked) return;
     if (rt.waitingFor === "key") { rt.pressKey(); return; }
     if (data.charCodeAt(0) === 27) return; // arrow keys etc.
     for (const ch of data) {
@@ -321,6 +346,16 @@ kbd {
     touchText.value = "";
     rt.sendLine(v);
     touchText.focus();
+  });
+
+  // On-screen arrows for the snake game (phones, or anyone who prefers clicking)
+  const pad = $("pad");
+  const coarse = window.matchMedia("(pointer: coarse)").matches;
+  pad.addEventListener("pointerdown", (e) => {
+    const b = e.target.closest("button[data-key]");
+    if (!b || !rt) return;
+    e.preventDefault();
+    rt.sendKeys(b.dataset.key);
   });
 
   speedEl.addEventListener("change", () => {

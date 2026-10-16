@@ -23,9 +23,8 @@ changed; all edits happen in this project.
 ## Planned (keep in mind)
 - **Saving** is wanted soon. Keep new game state (rats, snake high score, event flags) in places
   that are easy to save and load later.
-- **Putrid's snake game:** first game free (1 rat per 5 points); after that 1 rat per game (spent
-  either way); a new high score pays 2 rats + 1 per full 5 points above the old high score.
-  Purple snake, dead rats as food. Speed-up as it grows: not decided. Seamus writes the dialogue.
+- **Putrid's snake game** (`game/PutridSnake.cpp`) is built. Putrid's 7 lines are placeholders
+  `[PUTRID: ...]` until Seamus writes them. High score lives on the character (`ud_snakeHighScore`).
 - **Rusty's shop** in the Rusty Bucket: design still being discussed.
 
 ## Working with Seamus

@@ -3,6 +3,7 @@
 #include "character.h"
 #include "battle.h"
 #include "npc.h"
+#include "PutridSnake.h"
 
 using namespace std;
 
@@ -189,9 +190,9 @@ void cellarEvent::trigger(character& c)
                     }
                     break;
                 case 3:
-                    color(5);
-                    std::cout << "Sorry... no game yet... (DLC)." << std::endl;
-                    MSdelay(2000);
+                    putridSnakeGame(c);	//Ultra Deluxe: Putrid's snake game
+                    endMusic();
+                    playMusic("putrid.wav");
                     continue;
                 case 4:
                     color(5);
