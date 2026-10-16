@@ -114,3 +114,14 @@ Changes compared with the original Mop Mania.
 - Fixed the Linux sound command, which had never worked.
 - **Character select:** each character's art is drawn in white so it doesn't blend into the yellow
   descriptions.
+
+## Edition 11 — mailbox art and letters
+- **New `mopmania_art` files** with mailbox animations, item pictures and letters (the `playAnim` timing
+  edit is re-applied: `frameSleep` instead of `MSdelay`).
+- **Every mailbox visit opens with an animation**: a letter (visits 1–3), a rat (4), a mirror (5),
+  mucus (6) and an empty mailbox after that.
+- **The three letters are drawn as letters:** Janitorius on a gold scroll, Latherus on a notepad, Sir
+  Mopsworth on formal paper, with the same words as before.
+- **Putrid Python's note** replaces "Sincerely, Putrid Python"; **the Mirror** shows your own character's
+  reflection; **the boxes** after the Mucus Maw and Grime Cleaner fights are drawn.
+- All existing lines, delays, rewards and battles are unchanged.

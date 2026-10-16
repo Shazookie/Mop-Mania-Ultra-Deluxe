@@ -35,6 +35,18 @@ namespace Art {
     extern const ArtAnim ENDING_CREDITS;
     extern const ArtAnim PUTRID_FIRST_MEETING;
     extern const ArtAnim PUTRID_RETURN_VISIT;
+    extern const ArtAnim MAILBOX_LETTER;
+    extern const ArtAnim MAILBOX_RAT;
+    extern const ArtAnim MAILBOX_MIRROR;
+    extern const ArtAnim MAILBOX_BOX;
+    extern const ArtAnim MAILBOX_EMPTY;
+    extern const ArtAnim MAILBOX_MUCUS;
+    extern const ArtFrame PIC_RAT_NOTE;
+    extern const ArtFrame PIC_MIRROR_BROOMBA;
+    extern const ArtFrame PIC_MIRROR_JETWET;
+    extern const ArtFrame PIC_MIRROR_BYSON;
+    extern const ArtFrame PIC_BOX;
+    extern const ArtFrame PIC_BOX_MUCUS;
 }
 
 // Print a still sprite in the current color (no clear).
@@ -49,4 +61,21 @@ void playTitleIntro();      // ends on the title screen; waits for Enter
 void playEndingCredits();
 void playPutridFirstMeeting();
 void playPutridReturnVisit();
+
+// ---- mailbox ----
+// Plays the mailbox opening. contents: "letter", "rat", "mirror", "box", "empty" or "mucus".
+// The last frame stays on screen so the game can print its usual lines under it.
+void playMailbox(const std::string& contents);
+// Item pictures (clear the screen and draw; the game prints its lines underneath).
+void showRatNote();
+void showMirror(const std::string& name);   // your own reflection
+void showBox(bool mucus);
+
+// ---- letters ----
+#include <vector>
+enum LetterStyle { LETTER_SCROLL, LETTER_NOTEPAD, LETTER_FORMAL, LETTER_PLAIN };
+// Draws a whole letter at once. Body paragraphs are word-wrapped to fit the page.
+void showLetter(LetterStyle style, const std::string& greeting, const std::vector<std::string>& body,
+                const std::string& closing, const std::string& signer, int signerColor = 7);
+void printMaskedPublic(const char* text, const char* mask, int baseColor);
 #endif

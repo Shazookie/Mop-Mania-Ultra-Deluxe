@@ -31,7 +31,8 @@ changed; all edits happen in this project.
   `MSdelay(...)` -> `frameSleep(...)` (web Text speed "Instant" otherwise skips animations).
   `game/UltraDeluxeArt.cpp` adds: skippable/looping title (ud_playTitle), art beside the battle menu
   (ud_showCombatArt), attack animation sized for phones (ud_playAttackAnim). Other hooks call
-  mopmania_art directly: showSelectArt, playEndingCredits, playPutridFirstMeeting/ReturnVisit.
+  mopmania_art directly: showSelectArt, playEndingCredits, playPutridFirstMeeting/ReturnVisit, and the
+  mailbox (playMailbox, showLetter, showRatNote, showMirror, showBox in mailboxEvent::trigger).
   Title, credits and Putrid scenes are wrapped in screenFit.
 
 ## Working with Seamus

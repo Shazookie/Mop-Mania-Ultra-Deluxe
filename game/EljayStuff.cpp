@@ -3,6 +3,7 @@
 #include "character.h"
 #include "battle.h"
 #include "npc.h"
+#include "mopmania_art.h"
 
 //RustyBucket Shop Menu
 /*
@@ -596,23 +597,17 @@ void mailboxEvent::trigger(character& c)
 	}
 		else if (this->checked == 0)
 		{
+			playMailbox("letter");	//Ultra Deluxe: mailbox opening; its last frame stays on screen
 			std::cout << "You checked your mailbox..." << std::endl;
 			MSdelay(4000);
 			std::cout << "You got a letter in your mailbox!" << std::endl;
 			MSdelay(2000);
 			std::cout << "It says..." << std::endl;
 			MSdelay(2000);
-			std::cout << "\tDear " << c.get_name() << std::endl;
-			MSdelay(4000);
-			std::cout << "\t\tI hope your journey is going well." << std::endl;
-			MSdelay(5000);
-			std::cout << "\t\tYou are doing a great job and you deserve a little break." << std::endl;
-			MSdelay(4000);
-			std::cout << "\tSincerely," << std::endl;
-			MSdelay(3000);
-			color(6);
-			std::cout << "\t\tJanitorius" << std::endl;
-			color(7);
+			showLetter(LETTER_SCROLL, "Dear " + c.get_name(),	//Ultra Deluxe
+				{ "I hope your journey is going well.",
+				  "You are doing a great job and you deserve a little break." },
+				"Sincerely,", "Janitorius", 6);
 			MSdelay(4000);
 			c.acq_healUp();
 			MSdelay(4000);
@@ -621,24 +616,18 @@ void mailboxEvent::trigger(character& c)
 		}
 		else if (this->checked == 1)
 		{
+			playMailbox("letter");	//Ultra Deluxe: mailbox opening; its last frame stays on screen
 			Sdelay(2);
 			std::cout << "You checked your mailbox..." << std::endl;
 			ellipsis();
 			std::cout << "You got a letter in your mailbox!" << std::endl;
 			MSdelay(4000);
-			std::cout << "\tDear " << c.get_name() << std::endl;
-			MSdelay(4000);
-			std::cout << "\t\tThis is Latherus, your neighbor.." << std::endl;
-			MSdelay(4000);
-			std::cout << "\t\tI've heard that you have been venturing into le hospitale.." << std::endl;
-			MSdelay(4000);
-			std::cout << "\t\tWhatever you do always be aware of your surroundings.." << std::endl;
-			MSdelay(4000);
-			std::cout << "\t\tI have a gift for you that might help you, I hope it helps!" << std::endl;
-			MSdelay(4000);
-			std::cout << "\tSincerely," << std::endl;
-			MSdelay(3000);
-			std::cout << "\tLatherus" << std::endl;
+			showLetter(LETTER_NOTEPAD, "Dear " + c.get_name(),	//Ultra Deluxe
+				{ "This is Latherus, your neighbor..",
+				  "I've heard that you have been venturing into le hospitale..",
+				  "Whatever you do always be aware of your surroundings..",
+				  "I have a gift for you that might help you, I hope it helps!" },
+				"Sincerely,", "Latherus");
 			c.acq_cleaningTips();
 			MSdelay(4000);
 			checked++;
@@ -646,24 +635,18 @@ void mailboxEvent::trigger(character& c)
 		}
 		else if (this->checked == 2)
 		{
+			playMailbox("letter");	//Ultra Deluxe: mailbox opening; its last frame stays on screen
 			Sdelay(2);
 			std::cout << "You checked your mailbox..." << std::endl;
 			ellipsis();
 			std::cout << "You got a letter in your mailbox! :O" << std::endl;
 			MSdelay(4000);
-			std::cout << "\tDear " << c.get_name() << std::endl;
-			MSdelay(4000);
-			std::cout << "\t\tThis is Sir Mopsworth, your other neighbor.." << std::endl;
-			MSdelay(4000);
-			std::cout << "\t\tLatherus has brought up news of you venturing into le hospitale.." << std::endl;
-			MSdelay(4000);
-			std::cout << "\t\tI hope you are careful around the parts of there fellow.." << std::endl;
-			MSdelay(4000);
-			std::cout << "\t\tI wish you strength in your endeavors!" << std::endl;
-			MSdelay(4000);
-			std::cout << "\tSincerely," << std::endl;
-			MSdelay(3000);
-			std::cout << "\tSir Mopsworth" << std::endl;
+			showLetter(LETTER_FORMAL, "Dear " + c.get_name(),	//Ultra Deluxe
+				{ "This is Sir Mopsworth, your other neighbor..",
+				  "Latherus has brought up news of you venturing into le hospitale..",
+				  "I hope you are careful around the parts of there fellow..",
+				  "I wish you strength in your endeavors!" },
+				"Sincerely,", "Sir Mopsworth");
 			c.acq_attUp();
 			MSdelay(4000);
 			checked++;
@@ -671,31 +654,30 @@ void mailboxEvent::trigger(character& c)
 		}
 		else if (this->checked == 3)//putrid pythion
 		{
+			playMailbox("rat");	//Ultra Deluxe: mailbox opening; its last frame stays on screen
 			Sdelay(2);
 			std::cout << "You checked your mailbox..." << std::endl;
 			ellipsis();
 			MSdelay(4000);
 			std::cout << "Oh what's this doing here?" << std::endl;
 			MSdelay(4000);
+			showRatNote();	//Ultra Deluxe: Putrid Python's note (replaces "Sincerely, Putrid Python")
 			c.acq_deadRat();
 			Sdelay(2);
-			std::cout << "\tSincerely," << std::endl;
-			MSdelay(3000);
-			color(5);
-			std::cout << "\tPutrid Python" << std::endl;
-			color(7);
 			MSdelay(4000);
 			checked++;
 			return;
 		}
 		else if (this->checked == 4)
 		{
+			playMailbox("mirror");	//Ultra Deluxe: mailbox opening; its last frame stays on screen
 			Sdelay(2);
 			std::cout << "You checked your mailbox..." << std::endl;
 			ellipsis();
 			MSdelay(3000);
 			std::cout << "Oh what's this?" << std::endl;
 			MSdelay(4000);
+			showMirror(c.get_name());	//Ultra Deluxe: your reflection
 			std::cout << "Your reflection..." << std::endl;
 			MSdelay(3000);
 			std::cout << "Maybe it'll be useful" << std::endl;
@@ -707,6 +689,7 @@ void mailboxEvent::trigger(character& c)
 		}
 		else if (this->checked == 5)
 		{
+			playMailbox("mucus");	//Ultra Deluxe: mailbox opening; its last frame stays on screen
 			Sdelay(2);
 			std::cout << "You checked your mailbox..." << std::endl;
 			ellipsis();
@@ -726,6 +709,7 @@ void mailboxEvent::trigger(character& c)
 			Dotdot();
 			std::cout << "Oh?" << std::endl;
 			MSdelay(3000);
+			showBox(true);	//Ultra Deluxe
 			std::cout << "You got a box covered in mucus and decide to open it..." << std::endl;
 			MSdelay(3000);
 			std::cout << "Oh WOW! " << std::endl;
@@ -737,6 +721,7 @@ void mailboxEvent::trigger(character& c)
 		} 
 		else if (this->checked == 6)
 		{
+			playMailbox("empty");	//Ultra Deluxe: mailbox opening; its last frame stays on screen
 			Sdelay(2);
 			std::cout << "You checked your mailbox..." << std::endl;
 			ellipsis();
@@ -750,6 +735,7 @@ void mailboxEvent::trigger(character& c)
 		}
 		else if (this->checked == 7)
 		{
+			playMailbox("empty");	//Ultra Deluxe: mailbox opening; its last frame stays on screen
 			Sdelay(2);
 			std::cout << "You checked your mailbox..." << std::endl;
 			ellipsis();
@@ -761,6 +747,7 @@ void mailboxEvent::trigger(character& c)
 			}
 		else if (this->checked == 8)
 		{
+			playMailbox("empty");	//Ultra Deluxe: mailbox opening; its last frame stays on screen
 			Sdelay(2);
 			std::cout << "You checked your mailbox..." << std::endl;
 			ellipsis();
@@ -772,6 +759,7 @@ void mailboxEvent::trigger(character& c)
 		}
 		else if (this->checked == 9)
 		{
+			playMailbox("empty");	//Ultra Deluxe: mailbox opening; its last frame stays on screen
 			Sdelay(2);
 			std::cout << "You checked your mailbox..." << std::endl;
 			ellipsis();
@@ -787,6 +775,7 @@ void mailboxEvent::trigger(character& c)
 		}
 		else if (this->checked == 10)
 		{
+			playMailbox("empty");	//Ultra Deluxe: mailbox opening; its last frame stays on screen
 			Sdelay(2);
 			std::cout << "You checked your mailbox..." << std::endl;
 			ellipsis();
@@ -824,6 +813,7 @@ void mailboxEvent::trigger(character& c)
 			Dotdot();
 			std::cout << "Oh?" << std::endl;
 			MSdelay(3000);
+			showBox(false);	//Ultra Deluxe
 			std::cout << "There is a box in the mail..." << std::endl;
 			MSdelay(4000);
 			std::cout << "Oh WOW! " << std::endl;
@@ -838,6 +828,7 @@ void mailboxEvent::trigger(character& c)
 		}
 		else
 		{
+			playMailbox("empty");	//Ultra Deluxe
 			ellipsis();
 			std::cout << "You checked your mailbox..." << std::endl;
 			MSdelay(4000);
