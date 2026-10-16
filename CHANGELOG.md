@@ -43,3 +43,5 @@ Changes compared with the original Mop Mania.
   (spent either way). Beating your high score pays 2 rats + 1 for every full 5 points above it.
 - Putrid's 7 lines are placeholders like `[PUTRID: taunts you for losing your rat]` until Seamus writes them.
 - The high score is kept on the character so it can be saved once saving exists.
+- The web page header shows the version ("Version 4"). It comes from the newest "Edition" heading in
+  this file, so it updates by itself.

@@ -20,6 +20,10 @@ const wasmGz = zlib.gzipSync(read("web/mopmania.wasm"), { level: 9 }).toString("
 const credits = read("game/endcredit.txt").toString("base64");
 const runtime = read("web/mopmania-runtime.js").toString("utf8");
 
+// The version tag in the header: the newest "## Edition N" heading in CHANGELOG.md.
+const editions = [...read("CHANGELOG.md").toString("utf8").matchAll(/^## Edition (\d+)/gm)].map((m) => Number(m[1]));
+const version = editions.length ? "Version " + Math.max(...editions) : "";
+
 let page = read("web/page-template.html").toString("utf8");
 const fill = (marker, value) => {
   if (!page.includes(marker)) throw new Error("template marker missing: " + marker);
@@ -29,6 +33,7 @@ fill("/*XTERM_CSS*/", xtermCss);
 fill("/*RUNTIME*/", runtime);
 fill("/*WASM_GZ_B64*/", wasmGz);
 fill("/*ENDCREDIT_B64*/", credits);
+fill("/*VERSION*/", version);
 
 fs.mkdirSync(path.join(root, "dist"), { recursive: true });
 fs.writeFileSync(path.join(root, "dist/artifact.html"), page);
