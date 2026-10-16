@@ -60,6 +60,7 @@ MM_IMPORT("rt_begin") void mm_js_rt_begin(void);
 MM_IMPORT("rt_end") void mm_js_rt_end(void);
 MM_IMPORT("poll_byte") int mm_js_poll_byte(void);
 MM_IMPORT("frame_wait") void mm_js_frame_wait(int ms);
+MM_IMPORT("term_cols") int mm_js_term_cols(void);
 
 // Scratch space the page uses to pause and resume the game while it waits
 // for the player (Asyncify).
@@ -83,6 +84,7 @@ void realtimeBegin() { std::cout << "\033[?25l"; flush_out(); mm_js_rt_begin(); 
 void realtimeEnd() { std::cout << "\033[?25h"; flush_out(); mm_js_rt_end(); }
 int pollByte() { return mm_js_poll_byte(); }
 void frameSleep(int ms) { flush_out(); mm_js_frame_wait(ms); }
+int terminalColumns() { return mm_js_term_cols(); }
 
 #else
 // Native build (macOS / Linux).
@@ -90,6 +92,7 @@ void frameSleep(int ms) { flush_out(); mm_js_frame_wait(ms); }
 #include <sys/types.h>
 #include <sys/wait.h>
 #include <termios.h>
+#include <sys/ioctl.h>
 #include <unistd.h>
 
 static void wait_key() {
@@ -155,6 +158,11 @@ int pollByte() {
 void frameSleep(int ms) {
     flush_out();
     std::this_thread::sleep_for(std::chrono::milliseconds(ms));
+}
+int terminalColumns() {
+    winsize w{};
+    if (ioctl(STDOUT_FILENO, TIOCGWINSZ, &w) == 0 && w.ws_col > 0) return w.ws_col;
+    return 0;
 }
 
 // Sounds play from a "sounds" folder next to where the game is run, using

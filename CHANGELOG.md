@@ -53,3 +53,13 @@ Changes compared with the original Mop Mania.
   are a placeholder `[PUTRID: talks with you]` until Seamus writes them), [5] Exit.
 - **Text size** picker on the web page (Small / Medium / Large), remembered by your browser. Until you
   pick one it uses small on narrow screens and medium elsewhere.
+
+## Edition 6 — character art
+- **ASCII art for Broomba, Swifter JetWet and BysonV8** (from `art/mopmania_sprites_v3.txt`):
+  - Character select shows each character's **large front** art above its description. On screens too
+    narrow for it (phones), the small front art is shown instead so it doesn't wrap.
+  - Battles show your character's **small front** art above your stats, and the **small attack** art
+    every time you attack.
+  - The back views (and the large attack art) are stored for later animation but not shown yet.
+- The art lives in `game/CharacterArtData.cpp` as raw string literals (no escaped backslashes, every line
+  within 80 columns). `tools/gen_art.py` regenerates it from the art file.

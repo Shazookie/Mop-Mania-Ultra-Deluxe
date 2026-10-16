@@ -2,6 +2,7 @@
 #include "enemy.h"
 #include "utility.h"
 #include "UltraDeluxeMoves.h"
+#include "CharacterArt.h"
 #include <random>
 
 //BASE CHARACTER DEFINITIONS
@@ -958,6 +959,7 @@ void Broomba::describeAttacks()
 //Vacuum Vortex
 void Broomba::Attack1(enemy& e) 
 {
+    ud_showSmallAttack(*this);	//Ultra Deluxe: character art
     color(2);
     std::cout << "\tVacuum Vortex!" << std::endl;
     color(7);
@@ -973,6 +975,7 @@ void Broomba::Attack1(enemy& e)
 //Turbo Takedown
 void Broomba::Attack2(enemy& e)   //Turbo Takedown
 {
+    ud_showSmallAttack(*this);	//Ultra Deluxe: character art
     color(2);
     std::cout << "\tTurbo Takedown!" << std::endl;
     color(7);
@@ -986,6 +989,7 @@ void Broomba::Attack2(enemy& e)   //Turbo Takedown
 //Debris Dash
 void Broomba::Attack3(enemy& e) 
 {
+    ud_showSmallAttack(*this);	//Ultra Deluxe: character art
     color(2);
     std::cout << "\tDebris Dash!" << std::endl;
     color(7);
@@ -995,6 +999,7 @@ void Broomba::Attack3(enemy& e)
 //Dust Buster Blitz
 void Broomba::Attack4(enemy& e)
 {
+    ud_showSmallAttack(*this);	//Ultra Deluxe: character art
     color(2);
     std::cout << "\tDust Buster Blitz!" << std::endl;
     color(7);
@@ -1058,6 +1063,7 @@ void SwifterJetWet::describeAttacks()
 //Mop'n Drop
 void SwifterJetWet::Attack1(enemy& e)
 {
+    ud_showSmallAttack(*this);	//Ultra Deluxe: character art
     color(2);
     std::cout << "\tMop'n Drop!" << std::endl;
     color(7);
@@ -1073,6 +1079,7 @@ void SwifterJetWet::Attack1(enemy& e)
 //Jittery Jetscream
 void SwifterJetWet::Attack2(enemy& e)
 {
+    ud_showSmallAttack(*this);	//Ultra Deluxe: character art
     color(2);
     std::cout << "\tJittery Jetscream!" << std::endl;
     color(7);
@@ -1086,6 +1093,7 @@ void SwifterJetWet::Attack2(enemy& e)
 //Foam Frenzy
 void SwifterJetWet::Attack3(enemy& e)
 {
+    ud_showSmallAttack(*this);	//Ultra Deluxe: character art
     color(2);
     std::cout << "\tFoam Frenzy!" << std::endl;
     color(7);
@@ -1099,6 +1107,7 @@ void SwifterJetWet::Attack3(enemy& e)
 //Scrubbing Surge
 void SwifterJetWet::Attack4(enemy& e)
 {
+    ud_showSmallAttack(*this);	//Ultra Deluxe: character art
     color(2);
     std::cout << "\tScrubbing Surge!" << std::endl;
     color(7);
@@ -1164,6 +1173,7 @@ void BysonV8::describeAttacks()
 //Filth Flurry
 void BysonV8::Attack1(enemy& e)
 {
+    ud_showSmallAttack(*this);	//Ultra Deluxe: character art
     color(2);
     std::cout << "\tFilth Flurry!" << std::endl;
     color(7);
@@ -1182,6 +1192,7 @@ void BysonV8::Attack1(enemy& e)
 //Turbo Tornado
 void BysonV8::Attack2(enemy& e)
 {
+    ud_showSmallAttack(*this);	//Ultra Deluxe: character art
     color(2);
     std::cout << "\tTurbo Tornado!" << std::endl;
     color(7);
@@ -1195,6 +1206,7 @@ void BysonV8::Attack2(enemy& e)
 //Partical Pulse
 void BysonV8::Attack3(enemy& e)
 {
+    ud_showSmallAttack(*this);	//Ultra Deluxe: character art
     color(2);
     std::cout << "\tPartical Pulse!" << std::endl;
     color(7);
@@ -1210,6 +1222,7 @@ void BysonV8::Attack3(enemy& e)
 //Dust Storm Surge
 void BysonV8::Attack4(enemy& e)
 {
+    ud_showSmallAttack(*this);	//Ultra Deluxe: character art
     color(2);
     std::cout << "\tDust Storm Surge!" << std::endl;
     color(7);

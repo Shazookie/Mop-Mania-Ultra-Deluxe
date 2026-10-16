@@ -28,5 +28,6 @@ void lockInput(bool locked);
 void realtimeBegin();	//keys are read one at a time with pollByte() and not shown on screen
 void realtimeEnd();	//back to normal typing; throws away any keys not read yet
 int pollByte();	//next key byte, or -1 if none is waiting (arrow keys arrive as ESC [ A/B/C/D)
-void frameSleep(int ms);	//wait for the next frame (not affected by the web version's text speed)	//Ultra Deluxe: true = ignore the keyboard (and throw away anything typed) until unlocked
+void frameSleep(int ms);
+int terminalColumns();	//Ultra Deluxe: how many characters fit across the screen (0 if unknown)	//wait for the next frame (not affected by the web version's text speed)	//Ultra Deluxe: true = ignore the keyboard (and throw away anything typed) until unlocked
 #endif

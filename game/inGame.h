@@ -9,6 +9,7 @@
 #include <Windows.h>
 #include <stdlib.h>
 #include "utility.h"
+#include "CharacterArt.h"	//Ultra Deluxe
 #include "npc.h"
 #include <fstream>
 
@@ -72,7 +73,10 @@ int Start_Menu()
 		Sdelay(3);
 		int x;
 		color(7);
-		std::cout << "\n"; color(8); std::cout << "[1]: "; color(6); std::cout << "Broomba, the Explosive Custodian" << std::endl;
+		//Ultra Deluxe: character art (small if the screen is too narrow)
+		std::cout << "\n";
+		ud_printArtFit(ART_BROOMBA_LARGE_FRONT, ART_BROOMBA_SMALL_FRONT);
+		color(8); std::cout << "[1]: "; color(6); std::cout << "Broomba, the Explosive Custodian" << std::endl;
 		Sdelay(2);
 		std::cout << "\tA high-energy soldier with a passion for cleaning up messes in a blast." << std::endl;
 		Sdelay(2);
@@ -81,7 +85,10 @@ int Start_Menu()
 		std::cout << "\tBroomba roams MopMania, leaving sparkling trails of cleanliness and a touch of controlled chaos" << std::endl;
 		Sdelay(3);
 
-		std::cout << "\n"; color(8); std::cout << "[2]: "; color(6); std::cout << "Swifter JetWet, the Splashy Sentinel" << std::endl;
+		//Ultra Deluxe: character art (small if the screen is too narrow)
+		std::cout << "\n";
+		ud_printArtFit(ART_JETWET_LARGE_FRONT, ART_JETWET_SMALL_FRONT);
+		color(8); std::cout << "[2]: "; color(6); std::cout << "Swifter JetWet, the Splashy Sentinel" << std::endl;
 		Sdelay(2);
 		std::cout << "\tSwifter JetWet takes cleanliness to new depths! JetWet gained its aquatic powers by the ancient water sage, " << std::endl;
 		Sdelay(2);
@@ -91,7 +98,10 @@ int Start_Menu()
 		std::cout << "\tgrime that threaten the land." << std::endl;
 		Sdelay(3);
 
-		std::cout << "\n"; color(8); std::cout << "[3]: "; color(6); std::cout << "Byson V8, the cyclonic custodian" << std::endl;
+		//Ultra Deluxe: character art (small if the screen is too narrow)
+		std::cout << "\n";
+		ud_printArtFit(ART_BYSON_LARGE_FRONT, ART_BYSON_SMALL_FRONT);
+		color(8); std::cout << "[3]: "; color(6); std::cout << "Byson V8, the cyclonic custodian" << std::endl;
 		Sdelay(2);
 		std::cout << "\tCrafted, in the legendary Byson Forge, the BysonV8 harnessed the power of air origins, becoming a vacuum marvel." << std::endl;
 		Sdelay(2);

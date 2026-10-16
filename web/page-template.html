@@ -329,6 +329,7 @@ kbd {
       stop: stopSound,
       onWait: (kind) => setStatus(kind || "busy"),
       lockInput: (locked) => { if (locked) { line = ""; touchText.value = ""; } },
+      columns: () => term.cols,
       onRealtime: (on) => { pad.hidden = !on; touchForm.hidden = on; line = ""; if (on && !coarse) term.focus(); },
     });
     rt = game;

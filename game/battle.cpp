@@ -1,5 +1,6 @@
 #include "battle.h"
 #include "UltraDeluxeMoves.h"
+#include "CharacterArt.h"
 #include "character.h"
 #include "enemy.h"
 #include <string>
@@ -24,7 +25,8 @@ void battle::BattleStats(character& c, enemy& e)
 	size_t charLen = c.get_name().size() + 14;
 	//character stats
 	color(2);
-	std::cout << "|-----[ " << c.get_name() << " ]-----|\n";
+	ud_showSmallFront(c); color(2);	//Ultra Deluxe: character art
+		std::cout << "|-----[ " << c.get_name() << " ]-----|\n";
 	std::cout << "| Level: " << c.get_lvl() << "\n";
 	std::cout << "| HP:" << c.get_hp() << "\n";
 	std::cout << "|" << std::string(charLen, '-') << "|\n";
@@ -268,6 +270,7 @@ void GoodFinalBattle::BattleStats(character& c, enemy& e, int& counter) {
 		size_t charLen = c.get_name().size() + 14;
 		//character stats
 		color(2);
+		ud_showSmallFront(c); color(2);	//Ultra Deluxe: character art
 		std::cout << "|-----[ " << c.get_name() << " ]-----|\n";
 		std::cout << "| Level: " << c.get_lvl() << "\n";
 		std::cout << "| HP:" << c.get_hp() << "\n";
@@ -289,6 +292,7 @@ void GoodFinalBattle::BattleStats(character& c, enemy& e, int& counter) {
 		size_t charLen = c.get_name().size() + 14;
 		//character stats
 		color(2);
+		ud_showSmallFront(c); color(2);	//Ultra Deluxe: character art
 		std::cout << "|-----[ " << c.get_name() << " ]-----|\n";
 		std::cout << "| Level: " << c.get_lvl() << "\n";
 		std::cout << "| HP:" << c.get_hp() << "\n";
@@ -310,6 +314,7 @@ void GoodFinalBattle::BattleStats(character& c, enemy& e, int& counter) {
 		size_t charLen = c.get_name().size() + 14;
 		//character stats
 		color(2);
+		ud_showSmallFront(c); color(2);	//Ultra Deluxe: character art
 		std::cout << "|-----[ " << c.get_name() << " ]-----|\n";
 		std::cout << "| Level: " << c.get_lvl() << "\n";
 		std::cout << "| HP:" << c.get_hp() << "\n";
@@ -560,6 +565,7 @@ void BadFinalBattle::BattleStats(character& c, enemy& e, int& counter) {
 		size_t charLen = c.get_name().size() + 14;
 		//character stats
 		color(2);
+		ud_showSmallFront(c); color(2);	//Ultra Deluxe: character art
 		std::cout << "|-----[ " << c.get_name() << " ]-----|\n";
 		std::cout << "| Level: " << c.get_lvl() << "\n";
 		std::cout << "| HP:" << c.get_hp() << "\n";
@@ -581,6 +587,7 @@ void BadFinalBattle::BattleStats(character& c, enemy& e, int& counter) {
 		size_t charLen = c.get_name().size() + 14;
 		//character stats
 		color(2);
+		ud_showSmallFront(c); color(2);	//Ultra Deluxe: character art
 		std::cout << "|-----[ " << c.get_name() << " ]-----|\n";
 		std::cout << "| Level: " << c.get_lvl() << "\n";
 		std::cout << "| HP:" << c.get_hp() << "\n";

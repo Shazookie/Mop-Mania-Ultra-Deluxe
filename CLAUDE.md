@@ -26,6 +26,8 @@ changed; all edits happen in this project.
 - **Putrid's snake game** (`game/PutridSnake.cpp`) is built. Putrid's 7 lines are placeholders
   `[PUTRID: ...]` until Seamus writes them. High score lives on the character (`ud_snakeHighScore`).
 - **Rusty's shop** in the Rusty Bucket: design still being discussed.
+- **Character art** (`game/CharacterArt*.{h,cpp}`): back views and large attack art are stored but
+  unused; animation planned. New art versions: put the file in `art/` and run `tools/gen_art.py`.
 
 ## Working with Seamus
 - Ask before writing or changing any dialogue; show him the exact lines.

@@ -24,7 +24,7 @@
      * opts.speed     multiplier for sleeps (1 = original pacing)
      */
     constructor(opts) {
-      this.opts = Object.assign({ files: {}, speed: 1, write() {}, play() {}, stop() {}, onWait() {}, lockInput() {}, onRealtime() {} }, opts);
+      this.opts = Object.assign({ files: {}, speed: 1, write() {}, play() {}, stop() {}, onWait() {}, lockInput() {}, onRealtime() {}, columns() { return 0; } }, opts);
       this.realtime = false;
       this.keyBytes = [];
       this.inputLocked = false;
@@ -280,6 +280,7 @@
           self.realtime = false; self.keyBytes.length = 0; self.stdin.length = 0;
           try { self.opts.onRealtime(false); } catch (e) {}
         },
+        term_cols() { try { return self.opts.columns() | 0; } catch (e) { return 0; } },
         poll_byte() { return self.keyBytes.length ? self.keyBytes.shift() : -1; },
         frame_wait(ms) {
           return new Promise((resolve) => setTimeout(() => { if (!self.dead) resolve(); }, Math.max(0, ms)));
