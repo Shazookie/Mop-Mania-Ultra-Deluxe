@@ -88,6 +88,8 @@ body {
 .status::before { content: ""; width: 8px; height: 8px; border-radius: 50%; background: var(--muted); }
 .status[data-state="line"] { color: var(--ok); border-color: color-mix(in srgb, var(--ok) 45%, var(--rule)); }
 .status[data-state="line"]::before { background: var(--ok); }
+.status[data-state="enter"] { color: var(--bucket); border-color: color-mix(in srgb, var(--bucket) 45%, var(--rule)); }
+.status[data-state="enter"]::before { background: var(--bucket); animation: blink 1s steps(2) infinite; }
 .status[data-state="key"] { color: var(--bucket); border-color: color-mix(in srgb, var(--bucket) 45%, var(--rule)); }
 .status[data-state="key"]::before { background: var(--bucket); animation: blink 1s steps(2) infinite; }
 .status[data-state="done"]::before { background: var(--rule); }
@@ -302,7 +304,7 @@ kbd {
   renderSound();
 
   // ---- status --------------------------------------------------------
-  const STATUS = { line: "Your answer", key: "Press any key", busy: "Story playing", done: "Game over" };
+  const STATUS = { line: "Your answer", key: "Press any key", enter: "Press Enter", busy: "Story playing", done: "Game over" };
   function setStatus(state) {
     statusEl.dataset.state = state;
     statusEl.textContent = STATUS[state];
@@ -330,7 +332,16 @@ kbd {
       onWait: (kind) => setStatus(kind || "busy"),
       lockInput: (locked) => { if (locked) { line = ""; touchText.value = ""; } },
       columns: () => term.cols,
-      onRealtime: (on) => { pad.hidden = !on; touchForm.hidden = on; line = ""; if (on && !coarse) term.focus(); },
+      onRealtime: (on, mode) => {
+        const enterOnly = on && mode === 1;            // title screen: just "press Enter"
+        pad.hidden = !on || enterOnly;
+        touchForm.hidden = on && !enterOnly;
+        touchSend.textContent = enterOnly ? "Continue" : "Enter";
+        line = "";
+        setStatus(enterOnly ? "enter" : "busy");
+        if (on && !coarse) term.focus();
+      },
+      screenFit: (cols, rows) => fitScreen(cols, rows),
     });
     rt = game;
     try {
@@ -364,6 +375,7 @@ kbd {
   // Phones: answer through the input bar under the console.
   touchForm.addEventListener("submit", (e) => {
     e.preventDefault();
+    if (rt && rt.realtime) { rt.sendKeys("\r"); touchText.value = ""; return; }   // title screen
     if (!rt || rt.finished || rt.inputLocked) return;
     if (rt.waitingFor === "key") { rt.pressKey(); touchText.value = ""; return; }
     const v = line + touchText.value;
@@ -383,6 +395,20 @@ kbd {
     e.preventDefault();
     rt.sendKeys(b.dataset.key);
   });
+
+  // Full-screen pictures (title, credits, attack animations): shrink the text until
+  // cols x rows fit in the console, then put the chosen size back with fitScreen(0, 0).
+  function fitScreen(cols, rows) {
+    if (!cols) { term.options.fontSize = chosenSize(); refit(); return; }
+    let size = chosenSize();
+    for (; size > 5; size--) {
+      term.options.fontSize = size;
+      const d = fit.proposeDimensions();
+      if (d && d.cols >= cols && d.rows >= rows) break;
+    }
+    term.options.fontSize = size;
+    refit();
+  }
 
   sizeEl.addEventListener("change", () => {
     store.set("mm-size", sizeEl.value);

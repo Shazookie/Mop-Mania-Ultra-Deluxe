@@ -10,6 +10,7 @@
 #include <stdlib.h>
 #include "utility.h"
 #include "CharacterArt.h"	//Ultra Deluxe
+#include "Animations.h"	//Ultra Deluxe
 #include "npc.h"
 #include <fstream>
 
@@ -178,36 +179,10 @@ int Start_Menu()
 }
 
 void EndCredits() {
+	//Ultra Deluxe: the animated Ending + credits sequence replaces the old credits screen
 	endMusic();
 	playMusic("creativity.wav");
-	clear();
-	color(2);
-	
-	std::string line = "";
-	std::ifstream inFile;
-	inFile.open("endcredit.txt");
-	if (inFile.is_open()) {
-		while (getline(inFile, line)) {
-			std::cout << line << std::endl;
-		}
-	}
-
-	std::cout << "\n\n\n\n \n";
-	Sdelay(1);
-	std::cout << "\t\tthis game is dedicated to our MopMoms\n";
-	Sdelay(1);
-	std::cout << "\t Anna Fouch\n";
-	Sdelay(1);
-	std::cout << "\t Terry Sommers\n";
-	Sdelay(1);
-	std::cout << "\t Ellen Jimenez\n";
-	Sdelay(3);
-	std::cout << "\t and ur mom ;)\n";
-	Sdelay(5);
-
-	color(67);
-	std::cout << "\nIP6 206.241.34.110\n161.226.111.245\n207.211.62.213\n207.211.62.213\n122.66.49.164\n153.144.118.221\n\n";
-	system("pause");
+	ud_playCredits();
 }
 
 #endif

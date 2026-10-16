@@ -5,6 +5,7 @@
 #include "battle.h"
 #include "event.h"
 #include "GameMap.h"
+#include "Animations.h"
 
 #pragma comment(lib, "winmm.lib") //for music and sound effects!
 
@@ -70,13 +71,7 @@ int main()
 	map.birth_leftChild(map.getIndex(), "Cellar", "This is Putrid Python's hole in the wall shop", "Haha... get it... cuz its literally a hole in the wall?", cellar);
 	map.setCellar(map.getIndex()->getLeft());	//Ultra Deluxe
 
-	color(2);
-	std::cout << "Mop Mania Ultra Deluxe: The Purging of Le' Hospitale";
-	Sdelay(1);
-	color(8);
-	std::cout << "\n\nCreated by: Joshua Fouch,"; Sdelay(1); std::cout << " Seamus Sommers,"; Sdelay(1); std::cout << " and Eljay Jimenez\n";
-	color(7);
-	system("pause");
+	ud_playTitle();	//Ultra Deluxe: animated title (Enter skips / continues)
 
 	/*Broomba broomba("Broomba", 100, 100, 150); //beefy but less health
 	GoodFinalBattle test;

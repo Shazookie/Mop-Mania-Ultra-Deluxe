@@ -56,7 +56,8 @@ MM_IMPORT("wait_key") void mm_js_wait_key(void);
 MM_IMPORT("play") void mm_js_play(const char* name, int len, int loop);
 MM_IMPORT("stop") void mm_js_stop(void);
 MM_IMPORT("lock_input") void mm_js_lock_input(int locked);
-MM_IMPORT("rt_begin") void mm_js_rt_begin(void);
+MM_IMPORT("rt_begin") void mm_js_rt_begin(int mode);
+MM_IMPORT("screen_fit") void mm_js_screen_fit(int cols, int rows);
 MM_IMPORT("rt_end") void mm_js_rt_end(void);
 MM_IMPORT("poll_byte") int mm_js_poll_byte(void);
 MM_IMPORT("frame_wait") void mm_js_frame_wait(int ms);
@@ -80,7 +81,9 @@ static void stop_sound() { mm_js_stop(); }
 
 void lockInput(bool locked) { flush_out(); mm_js_lock_input(locked ? 1 : 0); }
 
-void realtimeBegin() { std::cout << "\033[?25l"; flush_out(); mm_js_rt_begin(); }
+void realtimeBegin(int mode) { std::cout << "\033[?25l"; flush_out(); mm_js_rt_begin(mode); }
+bool realtimeAvailable() { return true; }
+void screenFit(int cols, int rows) { flush_out(); mm_js_screen_fit(cols, rows); }
 void realtimeEnd() { std::cout << "\033[?25h"; flush_out(); mm_js_rt_end(); }
 int pollByte() { return mm_js_poll_byte(); }
 void frameSleep(int ms) { flush_out(); mm_js_frame_wait(ms); }
@@ -130,7 +133,9 @@ void lockInput(bool locked) {
 // Ultra Deluxe: real-time keys for the snake game.
 static termios g_rt_saved;
 static bool g_rt_on = false;
-void realtimeBegin() {
+bool realtimeAvailable() { return isatty(STDIN_FILENO); }
+
+void realtimeBegin(int) {
     std::cout << "\033[?25l";  // hide the cursor
     flush_out();
     if (!isatty(STDIN_FILENO) || g_rt_on) return;
@@ -159,6 +164,36 @@ void frameSleep(int ms) {
     flush_out();
     std::this_thread::sleep_for(std::chrono::milliseconds(ms));
 }
+// Ask the terminal window to be at least cols x rows. Many terminals (macOS Terminal,
+// iTerm2, xterm) honour the resize request; if the window is still too small for a
+// full-screen picture, ask the player to resize it.
+void screenFit(int cols, int rows) {
+    if (cols <= 0 || rows <= 0 || !isatty(STDOUT_FILENO)) return;
+    winsize w{};
+    if (ioctl(STDOUT_FILENO, TIOCGWINSZ, &w) != 0 || w.ws_col == 0) return;
+    if (w.ws_col >= cols && w.ws_row >= rows) return;
+    int wantCols = w.ws_col > cols ? w.ws_col : cols;
+    int wantRows = w.ws_row > rows ? w.ws_row : rows;
+    std::cout << "\033[8;" << wantRows << ";" << wantCols << "t";
+    flush_out();
+    std::this_thread::sleep_for(std::chrono::milliseconds(250));
+    if (ioctl(STDOUT_FILENO, TIOCGWINSZ, &w) != 0) return;
+    if ((w.ws_col >= cols && w.ws_row >= rows) || rows < 30) return;
+    std::cout << "\033[2J\033[H"
+              << "This screen is drawn for a window at least " << cols << " x " << rows
+              << " characters.\nYours is " << w.ws_col << " x " << w.ws_row
+              << ". Make the window bigger, then press Enter.\n";
+    flush_out();
+    if (g_rt_on) {
+        int b;
+        do { std::this_thread::sleep_for(std::chrono::milliseconds(30)); b = pollByte(); }
+        while (b != '\r' && b != '\n');
+    } else {
+        std::string line;
+        std::getline(std::cin, line);
+    }
+}
+
 int terminalColumns() {
     winsize w{};
     if (ioctl(STDOUT_FILENO, TIOCGWINSZ, &w) == 0 && w.ws_col > 0) return w.ws_col;
